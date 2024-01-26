@@ -7,8 +7,9 @@ const PORT = 6005;
 const session = require("express-session");
 const passport = require("passport");
 const OAuth2Strategy = require("passport-google-oauth2").Strategy;
-const userdb = require("./model/userSchema")
-
+const userdb = require("./model/userSchema");
+const problemdb = require("./model/problemSchema")
+const locationdb = require("./model/locationSchema")
 const clientid = process.env.ClientId
 const clientsecret = process.env.ClientSecret
 
@@ -61,6 +62,88 @@ passport.use(
     )
 )
 
+app.post("/createProblem",async(req,res)=>{
+    // const{headline,description}=req.body
+
+    // const data={
+    //     headline:headline,
+    //     description:description
+    // }
+
+    try {
+        let user = await problemdb.findOne({headline:req.body.headline});
+
+        if(!user){
+            user = new problemdb({
+                headline:req.body.headline,
+                description:req.body.description
+               
+            });
+
+            await user.save();
+        }
+
+        
+    } catch (error) {
+        console.log(error)
+    }
+
+
+})
+
+app.post("/AddLocation",async(req,res)=>{
+    // const{headline,description}=req.body
+
+    // const data={
+    //     headline:headline,
+    //     description:description
+    // }
+
+    try {
+        let user = await locationdb.findOne({locality:req.body.locality});
+
+        if(!user){
+            user = new locationdb({
+                locality:req.body.locality,
+                description:req.body.description,
+                peoples:req.body.peoples,
+                city:req.body.city,
+                longitude:req.body.longitude,
+                latitude:req.body.latitude
+            });
+
+            await user.save();
+        }
+
+        
+    } catch (error) {
+        console.log(error)
+    }
+
+
+})
+
+
+app.post("/admin",async(req,res)=>{
+    const{username,password}=req.body
+    console.log(username);
+    try{
+        let check=0;
+        if(username==="user" && password==="user")check=1;
+        if(check){
+            res.json("exist")
+        }
+        else{
+            res.json("notexist")
+        }
+
+    }
+    catch(e){
+        console.log(e);        
+        res.json("fail")
+    }
+
+})
 passport.serializeUser((user,done)=>{
     done(null,user);
 })

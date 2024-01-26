@@ -17,7 +17,7 @@ const Headers = () => {
         }
     }
 
-    // logoout
+    // logout
     const logout = ()=>{
         window.open("http://localhost:6005/logout","_self")
     }
