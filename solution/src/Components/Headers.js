@@ -39,6 +39,13 @@ const Headers = () => {
                                     Home
                                 </NavLink>
                             </li>
+
+                            {/*just for demo */}
+                            <li>
+                                <NavLink to="/userDashboard">
+                                    Dashboard
+                                </NavLink>
+                            </li>
                             {
                                 Object?.keys(userdata)?.length > 0 ? (
                                     <>

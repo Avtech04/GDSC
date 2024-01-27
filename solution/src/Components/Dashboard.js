@@ -18,15 +18,14 @@ const Dashboard = () => {
 
 
 useEffect(() => {
-  getUser()
+  //getUser()
 }, [])
   return (
     <div style={{textAlign:"center"}}>
         <h1>Dashboard</h1>
        
-            <NavLink to={'/addLocation'}>
-          
-          <button className="addLocation">Add Location</button>
+          <NavLink to={'/addLocation'}>
+            <button className="addLocation">Add Location</button>
           </NavLink>
            
         </div>

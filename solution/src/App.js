@@ -1,5 +1,6 @@
-// import logo from './logo.svg';
+// 
 import './App.css';
+import React, { useState } from 'react';
 import Home from './Components/Home';
 import Headers from './Components/Headers';
 import Login from './Components/Login';
@@ -7,7 +8,10 @@ import Dashboard from './Components/Dashboard';
 import Error from './Components/Error';
 import Admin from './Components/Admin';
 import AdminDashboard from './Components/AdminDashboard';
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route } from "react-router-dom";
+import { UserDashboard } from './Components/userComponents/UserDashboard';
+import { Map } from './Components/Map';
+import "mapbox-gl/dist/mapbox-gl.css";
 import Carousel from './Components/Carousel';
 import CreateProblem from './Components/Problem';
 import AddLocation from './Components/AddLocation';
@@ -29,6 +33,8 @@ function App() {
       } />
         <Route path='/login' element={<Login />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/userDashboard' element={<UserDashboard/>}/>
+        <Route path='/maps' element={<Map/>}/>
         <Route path='/admin' element={<Admin />} />
         <Route path='/admin/dashboard' element={<AdminDashboard />} />
         <Route path='*' element={<Error />} />
