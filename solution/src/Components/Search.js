@@ -25,7 +25,7 @@ const Search = (props) => {
         {
           params: {
             access_token: process.env.REACT_APP_MAP_KEY ,
-          },
+               },
         }
       ).then((response)=>{setSuggestions(response.data.features)})
   

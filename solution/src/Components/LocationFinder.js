@@ -7,7 +7,7 @@ export const LocationFinder = (props) => {
     const [mapState,setMapState]=useState(false);
     const [coordinate,setCoordinate]=useState([]);
   mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
-  useEffect(()=>{
+   useEffect(()=>{
     if(mapState){
     const mp = new mapboxgl.Map({
       container: 'map',
@@ -42,7 +42,7 @@ export const LocationFinder = (props) => {
                   {
                     params: {
                       access_token:  `${process.env.REACT_APP_MAP_KEY}` ,
-                    },
+                         },
                   }
                 ).then((response)=>{
                     if(response.data.features.length>0){

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react"
-import "./login.css"
 import axios from "axios"
 import { useNavigate, Link } from "react-router-dom"
-const Login = () => {
+
+
+function Login() {
     const history=useNavigate();
-   
+    
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
 
@@ -13,15 +14,15 @@ const Login = () => {
 
         try{
 
-            await axios.post("http://localhost:6005/login",{
+            await axios.post("http://localhost:6005/signup",{
                 email,password
             })
             .then(res=>{
                 if(res.data=="exist"){
-                    history("/userdashboard",{state:{id:email}})
+                    alert("User already exists")
                 }
                 else if(res.data=="notexist"){
-                    alert("User have not sign up")
+                    history("/home",{state:{id:email}})
                 }
             })
             .catch(e=>{
@@ -37,29 +38,27 @@ const Login = () => {
 
     }
 
-    const loginwithgoogle = ()=>{
-        window.open("http://localhost:6005/auth/google/callback","_self")
-    }
-  return (
-    <>
-        <div className="login-page">
-            <h1 style={{textAlign:"center"}}>Login for Doners</h1>
-            <div className="form">
+
+    return (
+        <div className="login">
+
+            <h1>Signup</h1>
+
             <form action="POST">
-              
                 <input type="email" onChange={(e) => { setEmail(e.target.value) }} placeholder="Email"  />
-                <input type="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Password"  />
+                <input type="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Password" />
                 <input type="submit" onClick={submit} />
 
             </form>
-            <Link to="/signup">Signup Page</Link>
-                <button className='login-with-google-btn' onClick={loginwithgoogle}>
-                    Sign In With Google for NGO
-                </button>
-            </div>
+
+            <br />
+            <p>OR</p>
+            <br />
+
+            <Link to="/">Login Page</Link>
+
         </div>
-    </>
-  )
+    )
 }
 
 export default Login

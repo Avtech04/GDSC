@@ -10,6 +10,7 @@ const OAuth2Strategy = require("passport-google-oauth2").Strategy;
 const userdb = require("./model/userSchema");
 const problemdb = require("./model/problemSchema")
 const locationdb = require("./model/locationSchema")
+const donerdb = require("./model/donerSchema")
 const clientid = process.env.ClientId
 const clientsecret = process.env.ClientSecret
 
@@ -40,6 +41,7 @@ passport.use(
         scope:["profile","email"]
     },
     async(accessToken,refreshToken,profile,done)=>{
+        
         try {
             let user = await userdb.findOne({googleId:profile.id});
 
@@ -58,9 +60,15 @@ passport.use(
         } catch (error) {
             return done(error,null)
         }
-    }
+    
+    
+}
+
     )
 )
+
+
+
 
 app.post("/createProblem",async(req,res)=>{
     // const{headline,description}=req.body
@@ -168,12 +176,50 @@ app.get("/login/sucess",async(req,res)=>{
         res.status(400).json({message:"Not Authorized"})
     }
 })
+app.post("/login",async(req,res)=>{
+    const{email,password}=req.body
 
+    try{
+        const check=await donerdb.findOne({email:email})
+
+        if(check){
+            res.json("exist")
+        }
+        else{
+            res.json("notexist")
+        }
+
+    }
+    catch(e){
+        res.json("fail")
+    }
+
+})
 app.get("/logout",(req,res,next)=>{
     req.logout(function(err){
         if(err){return next(err)}
         res.redirect("http://localhost:3000");
     })
+})
+app.post("/signup",async(req,res)=>{
+    try {
+        let user = await donerdb.findOne({headline:req.body.email});
+
+        if(!user){
+            user = new donerdb({
+                email:req.body.email,
+                password:req.body.password
+               
+            });
+
+            await user.save();
+        }
+
+        
+    } catch (error) {
+        console.log(error)
+    }
+
 })
 
 app.listen(PORT,()=>{

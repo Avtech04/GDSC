@@ -12,8 +12,7 @@ export const Map = () => {
   const [ct,setCt]=useState([]);
   const [check,setCheck]=useState(false);
   mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
-  
-  useEffect(()=>{
+   useEffect(()=>{
     const mp = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',

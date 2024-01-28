@@ -1,6 +1,6 @@
 // 
 import './App.css';
-import React, { useState } from 'react';
+import React from 'react';
 import Home from './Components/Home';
 import Headers from './Components/Headers';
 import Login from './Components/Login';
@@ -18,8 +18,9 @@ import AddLocation from './Components/AddLocation';
 import P1 from './Problems/P1';
 import P2 from './Problems/P2';
 import P3 from './Problems/P3';
-
+import Signup from './Components/Signup';
 function App() {
+  
   return (
     <>
       <Headers />
@@ -45,6 +46,8 @@ function App() {
         <AddLocation/>}/>
         <Route path='/createProblem' element={
         <CreateProblem/>}/>
+        <Route path="/signup" element={<Signup/>}/>
+          <Route path="/userdashboard" element={<UserDashboard/>}/>
       </Routes>
 
       
