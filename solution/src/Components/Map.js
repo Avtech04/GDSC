@@ -4,13 +4,17 @@ import styled from 'styled-components'
 import Search from './Search'
 import mapboxgl from 'mapbox-gl';
 import { haversine_distance } from './haversine_distance';
-import { Order } from './userComponents/Order';
+import { Order} from './userComponents/Order';
+import { Book } from './userComponents/Book';
 const data1=require('./location.json');
 
 export const Map = () => {
   const [map,setMap]=useState({});
-  const [ct,setCt]=useState([]);
+  const [userCoordinate,setUserCoordinate]=useState([]);
+  const [destCoordinate,setDestCoordinate]=useState([]);
+  const [bookingState,setBookingState]=useState(false);
   const [check,setCheck]=useState(false);
+  const [markers,setMarkers]=useState([]);
   mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
    useEffect(()=>{
     const mp = new mapboxgl.Map({
@@ -20,36 +24,34 @@ export const Map = () => {
       zoom:10
     });
     setMap(mp);
-    mp.on('click',(e)=>{
-      console.log(e.lngLat);
-    })
-    const marker1= new mapboxgl.Marker().setLngLat([76,26]).addTo(mp);
+    
   },[])
 
   useEffect(()=>{
-    if(ct&&(ct.length>0)&&map){
+    if(userCoordinate&&(userCoordinate.length>0)&&map){
       const mp = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: ct,
+        center: userCoordinate,
         zoom:10
       });
       setMap(mp);
-      const marker1= new mapboxgl.Marker().setLngLat(ct).addTo(mp);
+      const marker1= new mapboxgl.Marker().setLngLat(userCoordinate).addTo(mp);
+      setMarkers([...markers,marker1]);
     }
-  },[ct])
+  },[userCoordinate])
 
   const onClick=()=>{
     let bnd=[];
-    bnd.push(ct);
+    bnd.push(userCoordinate);
     data1.data.forEach((d)=>{
-       let dis=haversine_distance(ct,d.Center);
+       let dis=haversine_distance(userCoordinate,d.Center);
        let arr=d.Center;
-       arr.reverse();
-       
-       bnd.push(d.Center);
+       bnd.push(arr);
+       //console.log(d);
        if(map){
         const marker1= new mapboxgl.Marker().setLngLat(arr).addTo(map);
+        setMarkers([...markers,marker1]);
        }
     })
     if(map){
@@ -59,17 +61,42 @@ export const Map = () => {
     }
     setCheck(true);
   }
+
+  useEffect(()=>{
+    if(bookingState&&destCoordinate&&destCoordinate.length>0){
+     
+      if(map){
+        let arr=[userCoordinate,destCoordinate];
+        console.log(markers);
+        markers.forEach((marker)=>{
+          console.log(marker);
+          marker.remove();
+        })
+        //console.log(destCoordinate);
+        const marker1=new mapboxgl.Marker().setLngLat(userCoordinate).addTo(map);
+        const marker2=new mapboxgl.Marker().setLngLat(destCoordinate).addTo(map);
+        map.fitBounds(arr,{
+          padding:60
+        })
+      }
+    }
+  },[bookingState])
   return (
     <div> 
       <Wrapper>
+        {bookingState?
+        <Booking>
+          <Book/>
+        </Booking>
+        :
         <SearchWrapper>
-          <Search setCt={setCt} onClick={onClick}/>
+          <Search setUserCoordinate={setUserCoordinate} onClick={onClick}/>
           {check?<>
             {data1.data.map((ele,index)=>{
-              return <Order key={index} />
+              return <Order key={index} type={"Booking"} setDestCoordinate={setDestCoordinate} setBookingState={setBookingState} details={ele}/>
             })}
           </>:<></>}
-        </SearchWrapper>
+        </SearchWrapper>}
         
         <MapWrapper id='map'></MapWrapper>
         </Wrapper>
@@ -87,5 +114,8 @@ const MapWrapper=styled.div`
   height:400px;
 `
 const SearchWrapper=styled.div`
+  flex:1;
+`
+const Booking =styled.div`
   flex:1;
 `

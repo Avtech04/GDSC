@@ -36,8 +36,8 @@ const Search = (props) => {
   };
 
   useEffect(()=>{
-    console.log(coordinate);
-    props.setCt(coordinate);
+    //console.log(coordinate);
+    props.setUserCoordinate(coordinate);
     
   },[coordinate])
   const handleSuggestionClick = async(suggestion) => {

@@ -1,10 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-export const Order = () => {
+export const Order = (props) => {
     const navigate=useNavigate();
     const onClick=()=>{
-        navigate('/')
+        if(props.type==="Booking"){
+            
+            props.setDestCoordinate(props.details.Center);
+            props.setBookingState(true);
+        }
     }
   return (
     <Wrapper onClick={onClick}>
