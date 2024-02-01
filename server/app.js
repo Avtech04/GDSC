@@ -11,6 +11,8 @@ const userdb = require("./model/userSchema");
 const problemdb = require("./model/problemSchema")
 const locationdb = require("./model/locationSchema")
 const donerdb = require("./model/donerSchema")
+const orderdb = require("./model/orderSchema")
+
 const clientid = process.env.ClientId
 const clientsecret = process.env.ClientSecret
 
@@ -178,15 +180,15 @@ app.get("/login/sucess",async(req,res)=>{
 })
 app.post("/login",async(req,res)=>{
     const{email,password}=req.body
-
+    console.log(req.body.email);
     try{
         const check=await donerdb.findOne({email:email})
 
         if(check){
-            res.json("exist")
+            res.status(200).json({message:"exist",user:check})
         }
         else{
-            res.json("notexist")
+            res.status(400).json({message:"notexist"})
         }
 
     }
@@ -221,6 +223,28 @@ app.post("/signup",async(req,res)=>{
     }
 
 })
+app.post("/maps",async(req,res)=>{
+   
+        let
+            user = new orderdb({
+                
+                food_type:req.body.food_type,
+                freshness:req.body.freshness,
+                quantity:req.body.quantity,
+
+                longitude:req.body.longitude,
+                latitude:req.body.latitude,
+                order_email:req.body.userEmail
+               
+            });
+
+            await user.save();
+        }
+
+        
+    
+
+)
 
 app.listen(PORT,()=>{
     console.log(`server start at port no ${PORT}`)

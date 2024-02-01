@@ -1,6 +1,5 @@
-// 
-import './App.css';
-import React from 'react';
+import {React,useState} from 'react';
+import { UserContext } from './UserContext';
 import Home from './Components/Home';
 import Headers from './Components/Headers';
 import Login from './Components/Login';
@@ -19,11 +18,13 @@ import P1 from './Problems/P1';
 import P2 from './Problems/P2';
 import P3 from './Problems/P3';
 import Signup from './Components/Signup';
+
 function App() {
-  
+  const [userEmail, setUserEmail] = useState("");
   return (
-    <>
+    <UserContext.Provider value={{ userEmail, setUserEmail }}>
       <Headers />
+    
       <Routes>
         <Route path='/' element={
         <>
@@ -49,9 +50,10 @@ function App() {
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/userdashboard" element={<UserDashboard/>}/>
       </Routes>
-
       
-    </>
+      
+
+    </UserContext.Provider>
   );
 }
 

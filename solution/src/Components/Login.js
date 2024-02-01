@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useContext } from "react"
 import "./login.css"
 import axios from "axios"
 import { useNavigate, Link } from "react-router-dom"
+import { UserContext } from '../UserContext';
 const Login = () => {
     const history=useNavigate();
-   
+    const { userEmail, setUserEmail } = useContext(UserContext);
+    const { latitude, setLatitude } = useContext(UserContext);
+    const { longitude, setLongitude } = useContext(UserContext);
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
 
@@ -17,10 +20,15 @@ const Login = () => {
                 email,password
             })
             .then(res=>{
-                if(res.data=="exist"){
+                
+                if(res.data.message=="exist"){
+                    console.log(res.data.user);
+                    setUserEmail(res.data.user.email);
+                    setLatitude(res.data.user.latitude);
+                    setLongitude(res.data.user.longitude);
                     history("/userdashboard",{state:{id:email}})
                 }
-                else if(res.data=="notexist"){
+                else if(res.data.message=="notexist"){
                     alert("User have not sign up")
                 }
             })

@@ -86,14 +86,14 @@ export const Map = () => {
       <Wrapper>
         {bookingState?
         <Booking>
-          <Book/>
+          <Book userCoordinate={userCoordinate}/>
         </Booking>
         :
         <SearchWrapper>
           <Search setUserCoordinate={setUserCoordinate} onClick={onClick}/>
           {check?<>
             {data1.data.map((ele,index)=>{
-              return <Order key={index} type={"Booking"} setDestCoordinate={setDestCoordinate} setBookingState={setBookingState} details={ele}/>
+              return <Order key={index} type={"Booking"}  setDestCoordinate={setDestCoordinate} setBookingState={setBookingState} details={ele}/>
             })}
           </>:<></>}
         </SearchWrapper>}
