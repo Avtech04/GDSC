@@ -43,7 +43,7 @@ const Headers = () => {
                             {/*just for demo */}
                             <li>
                                 <NavLink to="/userDashboard">
-                                    Dashboard
+                                    Donate
                                 </NavLink>
                             </li>
                             {

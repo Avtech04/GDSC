@@ -1,0 +1,15 @@
+.card-container{
+    display: flex;
+    flex-direction: row;
+  }
+
+
+  .card-img{
+    height: 30vh;
+  }
+
+  .cardd{
+    width: 30%;
+    padding: 10px;
+    margin: 10px;
+  }

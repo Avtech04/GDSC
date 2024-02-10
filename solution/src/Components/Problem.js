@@ -45,30 +45,21 @@ const Login = () => {
 
   return (
     <>
-      <div className="login-page">
-        <h1 style={{ textAlign: "center" }}>Create Problem</h1>
-        {/* <div className="form">
-          <form className="login-form">
-            <input type="text" name="headline" id="" placeholder="headline" />
-            <input
-              type="text"
-              name="descrpition"
-              id=""
-              placeholder="descrpition"
-            />
-            <h2>Add Image:</h2>
-            <input type="file" onChange={handleChange} />
-            <img src={file} />
-            <button>Login</button>
-          </form> */}
-          <form action="POST">
-                <input type="text" onChange={(e) => { setHeadline(e.target.value) }} placeholder="headline"  />
-                <input type="text" onChange={(e) => { setDescription(e.target.value) }} placeholder="description" />
-                <input type="submit" onClick={submit} />
+     <div className="login-page">
+
+<div className="form">
+            <h1 style={{textAlign:"center"}}>Create Problem</h1>
+            <form action="POST">
+              
+                <input type="text" onChange={(e) => { setHeadline(e.target.value) }} placeholder="Headline"  />
+                <input type="text" onChange={(e) => { setDescription(e.target.value) }} placeholder="Description"  />
+                <input type="submit" onClick={submit}  placeholder="Create"/>
 
             </form>
+           
+               
+            </div>
         </div>
-      {/* </div> */}
     </>
   );
 };

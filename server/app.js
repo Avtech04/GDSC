@@ -139,7 +139,7 @@ app.post("/admin",async(req,res)=>{
     console.log(username);
     try{
         let check=0;
-        if(username==="user" && password==="user")check=1;
+        if(username=="user" && password=="user")check=1;
         if(check){
             res.json("exist")
         }

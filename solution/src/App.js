@@ -18,7 +18,7 @@ import P1 from './Problems/P1';
 import P2 from './Problems/P2';
 import P3 from './Problems/P3';
 import Signup from './Components/Signup';
-
+import Footer from './Components/Footer';
 function App() {
   const [userEmail, setUserEmail] = useState("");
   return (
@@ -49,9 +49,10 @@ function App() {
         <CreateProblem/>}/>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/userdashboard" element={<UserDashboard/>}/>
+      
       </Routes>
       
-      
+      <Footer/>
 
     </UserContext.Provider>
   );

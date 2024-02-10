@@ -12,7 +12,7 @@ function Home (){
             <h1>Hello {location.state.id} and welcome to the home</h1>
             <NavLink to={'/createProblem'}>
           
-          <button className="donate">Donate</button>
+          <button className="donate">create Problem</button>
           </NavLink>
            
         </div>

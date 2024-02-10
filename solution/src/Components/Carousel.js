@@ -1,57 +1,46 @@
+import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import P1 from '../Problems/P1'
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import { Link, NavLink } from 'react-router-dom';
+import P1 from '../Problems/P1';
+import './carousel.css';
 function DarkVariantExample() {
   return (
-    <Carousel data-bs-theme="dark">
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src="https://picsum.photos/1800/300"
-          alt="First slide"
-        />
-        <Carousel.Caption>
-          <h5>First slide label</h5>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-          <NavLink to={'/problem/p1'}>
-          
-          <button className="donate">Donate</button>
-          </NavLink>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src="https://picsum.photos/1800/300"
-          alt="Second slide"
-        />
-        <Carousel.Caption>
-          <h5>Second slide label</h5>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          <NavLink to={'/problem/p2'}>
-          
-          <button className="donate">Donate</button>
-          </NavLink>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src="https://picsum.photos/1800/300"
-          alt="Third slide"
-        />
-        <Carousel.Caption>
-          <h5>Third slide label</h5>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-          <NavLink to={'/problem/p3'}>
-          
-          <button className="donate">Donate</button>
-          </NavLink>
-        </Carousel.Caption>
-      </Carousel.Item>
-    </Carousel>
+    <div className='card-container'>
+      <Card className='cardd'>
+        <Card.Img variant="top" src="https://picsum.photos/2000/2000" className='card-img' />
+        <Card.Body>
+          <Card.Title>Card Title</Card.Title>
+          <Card.Text>
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+          </Card.Text>
+          <Button variant="primary">Go somewhere</Button>
+        </Card.Body>
+      </Card>
+
+      <Card className='cardd'>
+        <Card.Img variant="top" src="https://picsum.photos/2000/2000" className='card-img' />
+        <Card.Body>
+          <Card.Title>Card Title</Card.Title>
+          <Card.Text>
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+          </Card.Text>
+          <Button variant="primary">Go somewhere</Button>
+        </Card.Body>
+      </Card>
+
+      <Card className='cardd'>
+        <Card.Img variant="top" src="https://picsum.photos/2000/2000" className='card-img' />
+        <Card.Body>
+          <Card.Title>Card Title</Card.Title>
+          <Card.Text>
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+          </Card.Text>
+          <Button variant="primary">Go somewhere</Button>
+        </Card.Body>
+      </Card>
+    </div>
   );
 }
 
