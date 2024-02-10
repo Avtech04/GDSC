@@ -1,16 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { Order } from './Order'
+import { Order } from './Order';
+import { NgoOrder } from '../NgoOrder';
+
 import '../../App.css'
+const data=require('../../order.json');
 
 export const UserDashboard = () => {
     const navigate=useNavigate();
+    const [startOrder,setStartOrder]=useState(false);
+    const [bookDetail,setBookDetail]=useState({});
     const onClick=()=>{
         navigate('/maps')
     }
   return (
     <Wrapper>
+        {startOrder?<>
+            <NgoOrder bookDetail={bookDetail} />
+        </>:
+        <>
      
       <h1>      Analytics</h1>
     
@@ -21,16 +30,21 @@ export const UserDashboard = () => {
         <div className="orders">
         <div className='order'>
             <p>Your upcoming Order</p>
-            <Order/>
-        </div>
+            {data.order.map((ele,index)=>{
+              return <Order key={index} type={"Tracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
+            })}
+            </div>
         <div>
             <p>Your past Orders</p>
-            <Order/>
-            <Order/>
-            <Order/>
-        </div>
-        </div>
-        </div>
+            
+            {data.order.map((ele,index)=>{
+              return <Order key={index} type={"Tracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
+            })}
+            </div>
+            </div>
+            </div>
+            </>
+}
     </Wrapper>
   )
 }

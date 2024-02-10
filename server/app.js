@@ -12,6 +12,8 @@ const problemdb = require("./model/problemSchema")
 const locationdb = require("./model/locationSchema")
 const donerdb = require("./model/donerSchema")
 const orderdb = require("./model/orderSchema")
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
 
 const clientid = process.env.ClientId
 const clientsecret = process.env.ClientSecret
@@ -246,6 +248,19 @@ app.post("/maps",async(req,res)=>{
 
 )
 
-app.listen(PORT,()=>{
-    console.log(`server start at port no ${PORT}`)
-})
+io.on("connection", (socket) => 
+{
+    socket.on("startTracking",(data)=>{
+        socket.roomId=data.id;
+        socket.join(data.id);
+    });
+    socket.on("sendLocation",(data)=>{
+        socket.to(socket.roomId).emit("recieveLocation",data);
+    })
+
+});
+
+//starting server
+http.listen(3001, () => {
+  console.log(`Server listening on port 3001`);
+});

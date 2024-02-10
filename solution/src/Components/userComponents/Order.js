@@ -5,9 +5,12 @@ export const Order = (props) => {
     const navigate=useNavigate();
     const onClick=()=>{
         if(props.type==="Booking"){
-            
-            props.setDestCoordinate(props.details.Center);
+            props.setDestCoordinate(props.details);
             props.setBookingState(true);
+        }else{
+            props.setBookDetail(props.details)
+            props.setStartOrder(true);
+            
         }
     }
   return (

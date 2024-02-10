@@ -3,6 +3,10 @@ import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
 import styled from 'styled-components'
 import Search from './Search'
 import mapboxgl from 'mapbox-gl';
+import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
+import "./map.css";
 import { haversine_distance } from './haversine_distance';
 import { Order} from './userComponents/Order';
 import { Book } from './userComponents/Book';
@@ -19,7 +23,7 @@ export const Map = () => {
    useEffect(()=>{
     const mp = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/streets-v12',
       center: [76,26],
       zoom:10
     });
@@ -31,7 +35,7 @@ export const Map = () => {
     if(userCoordinate&&(userCoordinate.length>0)&&map){
       const mp = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
+        style: 'mapbox://styles/mapbox/streets-v12',
         center: userCoordinate,
         zoom:10
       });
@@ -63,24 +67,29 @@ export const Map = () => {
   }
 
   useEffect(()=>{
-    if(bookingState&&destCoordinate&&destCoordinate.length>0){
+    if(bookingState&&destCoordinate&&destCoordinate.Center&&destCoordinate.Center.length>0){
      
       if(map){
-        let arr=[userCoordinate,destCoordinate];
+        
+      console.log(userCoordinate,destCoordinate.Center);
+        let arr=[userCoordinate,destCoordinate.Center];
         console.log(markers);
         markers.forEach((marker)=>{
           console.log(marker);
           marker.remove();
         })
-        //console.log(destCoordinate);
+
         const marker1=new mapboxgl.Marker().setLngLat(userCoordinate).addTo(map);
-        const marker2=new mapboxgl.Marker().setLngLat(destCoordinate).addTo(map);
+        const marker2=new mapboxgl.Marker().setLngLat(destCoordinate.Center).addTo(map);
         map.fitBounds(arr,{
           padding:60
         })
+        
+
       }
     }
-  },[bookingState])
+  },[bookingState]);
+  
   return (
     <div> 
       <Wrapper>
@@ -98,7 +107,7 @@ export const Map = () => {
           </>:<></>}
         </SearchWrapper>}
         
-        <MapWrapper id='map'></MapWrapper>
+        <MapWrapper id="map"></MapWrapper>
         </Wrapper>
       
     </div>
@@ -106,12 +115,14 @@ export const Map = () => {
 }
 
 const Wrapper=styled.div`
- display:flex;
+  display:flex;
  flex-direction:row;
 `
 const MapWrapper=styled.div`
   flex:1;
-  height:400px;
+  margin: 0; padding: 0;
+  height:100vh;
+  width:100vw;
 `
 const SearchWrapper=styled.div`
   flex:1;
@@ -119,3 +130,20 @@ const SearchWrapper=styled.div`
 const Booking =styled.div`
   flex:1;
 `
+
+/*
+https://api.mapbox.com/directions/v5/mapbox/driving/81.863304%2C25.493391%3B81.8338%2C25.43813?alternatives=false&geometries=polyline&overview=simplified&steps=false&notifications=none&access_token=pk.eyJ1IjoiYW5raXQzMTMwIiwiYSI6ImNscnA1MXJ5cTAyMTQya21hbGl0N3lwZTAifQ.89aC0m9Q8uHXZpc9Yqk6nQ
+*/
+/*
+var directions = new MapboxDirections({
+        accessToken: mapboxgl.accessToken,
+        profile: 'mapbox/driving',
+    });
+
+
+    map.addControl(directions,'top-left');
+  
+    directions.setOrigin(userCoordinate); 
+    directions.setDestination(destCoordinate.Center);
+
+*/
