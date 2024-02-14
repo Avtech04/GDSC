@@ -48,6 +48,20 @@
 .details{
   width: 30%;
 }
+.Back-details{
+  width: 25vw;
+    background-color: cadetblue;
+    margin: auto;
+}
+
+.Back-img{
+  width: 100%;
+    padding: auto;
+    /* margin: auto; */
+    /* align-items: center; */
+    padding: 20px;
+    height: 43vh;
+}
 
 .orders{
   width: 70%;

@@ -326,9 +326,9 @@ io.on("connection", (socket) => {
 });
 
 
-app.listen(port,()=>{
-    console.log(`Server listening on port 6005`);
-})
+// app.listen(port,()=>{
+//     console.log(`Server listening on port 6005`);
+// })
 
 //starting server
 http.listen(6005, () => {

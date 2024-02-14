@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom"
 import axios from "axios"
 
 const Headers = () => {
+    
     const [userdata, setUserdata] = useState({});
     console.log("response", userdata)
 
@@ -25,8 +26,28 @@ const Headers = () => {
     useEffect(() => {
         getUser()
     }, [])
+
+    const googleTranslateElementInit = () => {
+        new window.google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            autoDisplay: false
+          },
+          "google_translate_element"
+        );
+      };
+      useEffect(() => {
+        var addScript = document.createElement("script");
+        addScript.setAttribute(
+          "src",
+          "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+        );
+        document.body.appendChild(addScript);
+        window.googleTranslateElementInit = googleTranslateElementInit;
+      }, []);
     return (
         <>
+         <div id="google_translate_element"></div>
             <header>
                 <nav>
                     <div className="left">

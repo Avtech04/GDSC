@@ -13,7 +13,7 @@ const AddLocation = () => {
   const [peoples, setPeoples] = useState('')
   const [address, setAddress] = useState('')
   const [coordinate, setCoordinate] = useState([]);
-  const ngoName="ABC NGO"
+  const ngoName="Ayush Ngo"
   const lng=coordinate[0];
   const lat=coordinate[1];
   const submit=async()=>{
@@ -34,7 +34,7 @@ const AddLocation = () => {
     <>
       <div className="login-page">
         <h1 style={{ textAlign: "center" }}>Add Location</h1>
-        <input type="text" value={"ABC NGO"}/>
+        <input type="text" value={"Aysuh"}/>
         <input type="text" onChange={(e) => { setDescription(e.target.value) }} placeholder="description" />
         <input type="number" onChange={(e) => { setPeoples(e.target.value) }} placeholder="number of peoples" />
         <LocationFinder setAddress={setAddress} setCoordinate={setCoordinate} />

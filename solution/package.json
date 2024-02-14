@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@google-pay/button-react": "^3.0.10",
     "@mapbox/mapbox-gl-directions": "^4.2.0",
     "@mapbox/mapbox-sdk": "^0.15.3",
     "@react-google-maps/api": "^2.19.2",
