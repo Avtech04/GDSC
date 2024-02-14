@@ -19,7 +19,8 @@ export const Map = () => {
   const [bookingState,setBookingState]=useState(false);
   const [check,setCheck]=useState(false);
   const [markers,setMarkers]=useState([]);
-  mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
+  // mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
+  mapboxgl.accessToken =  `pk.eyJ1IjoiYW5raXQzMTMwIiwiYSI6ImNscnA1OHoxejAwcGcybG9mNDRyeGN4MHcifQ.j3Xp9yhfyvgdL5Kh5Jqc3Q`
    useEffect(()=>{
     const mp = new mapboxgl.Map({
       container: 'map',

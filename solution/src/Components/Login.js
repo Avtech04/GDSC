@@ -5,10 +5,12 @@ import { useNavigate, Link } from "react-router-dom"
 import { UserContext } from '../UserContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Appstate } from "../contextApi";
 const Login = () => {
     const notify = () => toast("Wow so easy!");
     const history=useNavigate();
-    const { userEmail, setUserEmail } = useContext(UserContext);
+    //const { userEmail, setUserEmail } = useContext(UserContext);
+    const {setUserEmail} = Appstate();
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
 

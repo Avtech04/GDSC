@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 require("./db/conn")
-const PORT = 6005;
+const port = 6005;
 const session = require("express-session");
 const passport = require("passport");
 const OAuth2Strategy = require("passport-google-oauth2").Strategy;
@@ -54,7 +54,8 @@ passport.use(
                     googleId:profile.id,
                     displayName:profile.displayName,
                     email:profile.emails[0].value,
-                    image:profile.photos[0].value
+                    image:profile.photos[0].value,
+                    status:"Not- Verified"
                 });
 
                 await user.save();
@@ -102,6 +103,27 @@ app.post("/createProblem",async(req,res)=>{
 
 
 })
+// Define a route to handle PUT requests to update the status of an NGO
+app.put('/api/NGO/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        // Find the NGO by ID and update its status
+        const updatedNGO = await userdb.findByIdAndUpdate(id, { status }, { new: true });
+
+        // Check if NGO with given ID exists
+        if (!updatedNGO) {
+            return res.status(404).json({ message: 'NGO not found' });
+        }
+
+        // Return the updated NGO
+        res.json(updatedNGO);
+    } catch (error) {
+        console.error('Error updating NGO status:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
 app.post("/AddLocation",async(req,res)=>{
     // const{headline,description}=req.body
@@ -225,6 +247,24 @@ app.post("/signup",async(req,res)=>{
     }
 
 })
+app.get('/api/problems', async (req, res) => {
+    try {
+      const problems = await problemdb.find().sort({ createdAt: -1 }).limit(3);
+      res.json(problems);
+    } catch (err) {
+      console.error('Error fetching problems:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  app.get('/api/NGO', async (req, res) => {
+    try {
+      const NGOs = await userdb.find().sort({ createdAt: -1 });
+      res.json(NGOs);
+    } catch (err) {
+      console.error('Error fetching NGOs:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 app.post("/maps",async(req,res)=>{
    
         let
@@ -260,7 +300,12 @@ io.on("connection", (socket) =>
 
 });
 
+
+app.listen(port,()=>{
+    console.log(`Server listening on port 6005`);
+})
+
 //starting server
-http.listen(3001, () => {
-  console.log(`Server listening on port 3001`);
-});
+// http.listen(3001, () => {
+//   console.log(`Server listening on port 3001`);
+// });

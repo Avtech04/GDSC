@@ -6,7 +6,8 @@ import axios from 'axios';
 export const LocationFinder = (props) => {
     const [mapState,setMapState]=useState(false);
     const [coordinate,setCoordinate]=useState([]);
-  mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
+  // mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
+  mapboxgl.accessToken =  `pk.eyJ1IjoiYW5raXQzMTMwIiwiYSI6ImNscnA1OHoxejAwcGcybG9mNDRyeGN4MHcifQ.j3Xp9yhfyvgdL5Kh5Jqc3Q`
    useEffect(()=>{
     if(mapState){
     const mp = new mapboxgl.Map({
@@ -41,7 +42,8 @@ export const LocationFinder = (props) => {
                   `https://api.mapbox.com/geocoding/v5/mapbox.places/${coordinate[0]},${coordinate[1]}.json`,
                   {
                     params: {
-                      access_token:  `${process.env.REACT_APP_MAP_KEY}` ,
+                      // access_token:  `${process.env.REACT_APP_MAP_KEY}` ,
+                      access_token:  `pk.eyJ1IjoiYW5raXQzMTMwIiwiYSI6ImNscnA1OHoxejAwcGcybG9mNDRyeGN4MHcifQ.j3Xp9yhfyvgdL5Kh5Jqc3Q`
                          },
                   }
                 ).then((response)=>{

@@ -7,7 +7,8 @@ import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
 import io from 'socket.io-client';
 const ENDPOINT = "http://localhost:3001";
 export const NgoOrder = (props) => {
-    mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
+    // mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
+    mapboxgl.accessToken =  `pk.eyJ1IjoiYW5raXQzMTMwIiwiYSI6ImNscnA1OHoxejAwcGcybG9mNDRyeGN4MHcifQ.j3Xp9yhfyvgdL5Kh5Jqc3Q`
     const [socket,setSocket]=useState(null);
     const [start,setStart]=useState(false);
     const [value,setValue]=useState([]);
