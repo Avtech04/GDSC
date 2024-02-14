@@ -13,7 +13,8 @@ const locationdb = require("./model/locationSchema")
 const donerdb = require("./model/donerSchema")
 const orderdb = require("./model/orderSchema")
 const http = require("http").Server(app);
-const io = require("socket.io")(http);
+
+
 
 const clientid = process.env.ClientId
 const clientsecret = process.env.ClientSecret
@@ -28,9 +29,9 @@ app.use(express.json());
 
 
 app.use(session({
-    secret:"ayushvarshney",
-    resave:false,
-    saveUninitialized:true
+    secret: "ayushvarshney",
+    resave: false,
+    saveUninitialized: true
 }))
 
 // setuppassport
@@ -39,15 +40,15 @@ app.use(passport.session());
 
 passport.use(
     new OAuth2Strategy({
-        clientID:clientid,
-        clientSecret:clientsecret,
-        callbackURL:"/auth/google/callback",
-        scope:["profile","email"]
+        clientID: clientid,
+        clientSecret: clientsecret,
+        callbackURL: "/auth/google/callback",
+        scope: ["profile", "email"]
     },
-    async(accessToken,refreshToken,profile,done)=>{
-        
-        try {
-            let user = await userdb.findOne({googleId:profile.id});
+        async (accessToken, refreshToken, profile, done) => {
+
+            try {
+                let user = await userdb.findOne({ googleId: profile.id });
 
             if(!user){
                 user = new userdb({
@@ -58,16 +59,16 @@ passport.use(
                     status:"Not- Verified"
                 });
 
-                await user.save();
+                    await user.save();
+                }
+
+                return done(null, user)
+            } catch (error) {
+                return done(error, null)
             }
 
-            return done(null,user)
-        } catch (error) {
-            return done(error,null)
+
         }
-    
-    
-}
 
     )
 )
@@ -75,7 +76,7 @@ passport.use(
 
 
 
-app.post("/createProblem",async(req,res)=>{
+app.post("/createProblem", async (req, res) => {
     // const{headline,description}=req.body
 
     // const data={
@@ -84,19 +85,19 @@ app.post("/createProblem",async(req,res)=>{
     // }
 
     try {
-        let user = await problemdb.findOne({headline:req.body.headline});
+        let user = await problemdb.findOne({ headline: req.body.headline });
 
-        if(!user){
+        if (!user) {
             user = new problemdb({
-                headline:req.body.headline,
-                description:req.body.description
-               
+                headline: req.body.headline,
+                description: req.body.description
+
             });
 
             await user.save();
         }
 
-        
+
     } catch (error) {
         console.log(error)
     }
@@ -125,29 +126,22 @@ app.put('/api/NGO/:id', async (req, res) => {
     }
 });
 
-app.post("/AddLocation",async(req,res)=>{
-    // const{headline,description}=req.body
 
-    // const data={
-    //     headline:headline,
-    //     description:description
-    // }
+app.post("/AddLocation", async (req, res) => {
 
     try {
-        let user = await locationdb.findOne({locality:req.body.locality});
 
-        if(!user){
-            user = new locationdb({
-                locality:req.body.locality,
-                description:req.body.description,
-                peoples:req.body.peoples,
-                city:req.body.city,
-                longitude:req.body.longitude,
-                latitude:req.body.latitude
+          const location= new locationdb({
+                ngoName: req.body.ngoName,
+                NgoId:req.body.NgoId,
+                description: req.body.description,
+                peoples: req.body.peoples,
+                address: req.body.address,
+                coordinates:[ req.body.lng,req.body.lat]
             });
 
-            await user.save();
-        }
+            await location.save();
+            res.status(200).json("Success");
 
         
     } catch (error) {
@@ -157,91 +151,102 @@ app.post("/AddLocation",async(req,res)=>{
 
 })
 
+app.get('/getLocation', async (req, res) => {
+    const id=req.query.id;
+    let data;
+    if(id){
+       data = await locationdb.find({_id:id});
+    }else{
+        data = await locationdb.find({});
+    }
+    res.status(200).send(data);
+})
 
-app.post("/admin",async(req,res)=>{
-    const{username,password}=req.body
+
+app.post("/admin", async (req, res) => {
+    const { username, password } = req.body
     console.log(username);
-    try{
-        let check=0;
-        if(username=="user" && password=="user")check=1;
-        if(check){
+    try {
+        let check = 0;
+        if (username == "user" && password == "user") check = 1;
+        if (check) {
             res.json("exist")
         }
-        else{
+        else {
             res.json("notexist")
         }
 
     }
-    catch(e){
-        console.log(e);        
+    catch (e) {
+        console.log(e);
         res.json("fail")
     }
 
 })
-passport.serializeUser((user,done)=>{
-    done(null,user);
+passport.serializeUser((user, done) => {
+    done(null, user);
 })
 
-passport.deserializeUser((user,done)=>{
-    done(null,user);
+passport.deserializeUser((user, done) => {
+    done(null, user);
 });
 
 // initial google ouath login
-app.get("/auth/google",passport.authenticate("google",{scope:["profile","email"]}));
+app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-app.get("/auth/google/callback",passport.authenticate("google",{
-    successRedirect:"http://localhost:3000/dashboard",
-    failureRedirect:"http://localhost:3000/login"
+app.get("/auth/google/callback", passport.authenticate("google", {
+    successRedirect: "http://localhost:3000/dashboard",
+    failureRedirect: "http://localhost:3000/login"
 }))
 
-app.get("/login/sucess",async(req,res)=>{
+app.get("/login/sucess", async (req, res) => {
 
-    if(req.user){
-        res.status(200).json({message:"user Login",user:req.user})
-    }else{
-        res.status(400).json({message:"Not Authorized"})
+    if (req.user) {
+        res.status(200).json({ message: "user Login", user: req.user })
+    } else {
+        res.status(400).json({ message: "Not Authorized" })
     }
 })
-app.post("/login",async(req,res)=>{
-    const{email,password}=req.body
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body
     console.log(req.body.email);
-    try{
-        const check=await donerdb.findOne({email:email})
+    try {
+        const check = await donerdb.findOne({ email: email })
 
-        if(check){
-            res.status(200).json({message:"exist",user:check})
+        if (check) {
+            res.status(200).json({ message: "exist", user: check })
         }
-        else{
-            res.status(400).json({message:"notexist"})
+        else {
+            res.status(400).json({ message: "notexist" })
         }
 
     }
-    catch(e){
+    catch (e) {
         res.json("fail")
     }
 
 })
-app.get("/logout",(req,res,next)=>{
-    req.logout(function(err){
-        if(err){return next(err)}
+app.get("/logout", (req, res, next) => {
+    req.logout(function (err) {
+        if (err) { return next(err) }
         res.redirect("http://localhost:3000");
     })
 })
-app.post("/signup",async(req,res)=>{
+app.post("/signup", async (req, res) => {
     try {
-        let user = await donerdb.findOne({headline:req.body.email});
+        let user = await donerdb.findOne({ headline: req.body.email });
 
-        if(!user){
+        if (!user) {
             user = new donerdb({
-                email:req.body.email,
-                password:req.body.password
-               
+                email: req.body.email,
+                password: req.body.password
+
             });
 
             await user.save();
         }
 
-        
+
     } catch (error) {
         console.log(error)
     }
@@ -265,37 +270,57 @@ app.get('/api/problems', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
-app.post("/maps",async(req,res)=>{
-   
-        let
-            user = new orderdb({
-                
-                food_type:req.body.food_type,
-                freshness:req.body.freshness,
-                quantity:req.body.quantity,
 
-                longitude:req.body.longitude,
-                latitude:req.body.latitude,
-                order_email:req.body.userEmail
-               
-            });
 
-            await user.save();
-        }
+app.post("/maps", async (req, res) => {
 
-        
-    
+    let user = new orderdb({
+
+            food_type: req.body.type,
+            freshness: req.body.freshness,
+            quantity: req.body.quantity,
+            userCoordinate: req.body.userCoordinate,
+            order_email: req.body.userEmail,
+            LocationId:req.body.LocationId,
+            NgoId: req.body.NgoId
+
+        });
+
+    await user.save();
+    res.status(200).json("Success");
+}
 
 )
 
-io.on("connection", (socket) => 
-{
-    socket.on("startTracking",(data)=>{
-        socket.roomId=data.id;
-        socket.join(data.id);
+app.get('/getOrders',async(req,res)=>{
+    console.log("yes");
+    const par1=req.query.NgoId;
+    const par2=req.query.emailId;
+    let data;
+    console.log(req.query);
+    if(par1){
+        data=await orderdb.find({"NgoId":par1});
+    }else{
+        data=await orderdb.find({"order_email":par2});
+    }
+    res.send(data);
+
+})
+
+const io = require("socket.io")(http, {
+    pingTimeout: 60000,
+    cors: {
+      origin: "http://localhost:3000",
+    }});
+io.on("connection", (socket) => {
+    socket.on("startTracking", (data) => {
+        // socket.roomId = data.id;
+        // socket.join(data.id);
+        console.log("YES");
+        
     });
-    socket.on("sendLocation",(data)=>{
-        socket.to(socket.roomId).emit("recieveLocation",data);
+    socket.on("sendLocation", (data) => {
+        socket.to(socket.roomId).emit("recieveLocation", data);
     })
 
 });
@@ -306,6 +331,6 @@ app.listen(port,()=>{
 })
 
 //starting server
-// http.listen(3001, () => {
-//   console.log(`Server listening on port 3001`);
-// });
+http.listen(6005, () => {
+    console.log(`Server listening on port 3001`);
+});

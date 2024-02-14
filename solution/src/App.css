@@ -1,4 +1,5 @@
-#map {position:absolute; top: 0; bottom: 0; width: 50%; }
+#map { top: 0; bottom: 0; width: 50%; }
+/* position:absolute; */
 .navbar{
   background-color: rgb(195, 220, 223);
   padding: 12px;

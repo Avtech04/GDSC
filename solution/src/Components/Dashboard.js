@@ -10,7 +10,7 @@ const data=require('../order.json');
 const Dashboard = () => {
   const [startOrder,setStartOrder]=useState(false);
   const [bookDetail,setBookDetail]=useState({});
-
+  const [orders,setOrders]=useState([]);
   const navigate = useNavigate();
 
   const getUser = async () => {
@@ -25,7 +25,19 @@ const Dashboard = () => {
 
 
 useEffect(() => {
-  //getUser()
+  //getUser();
+ axios.get('http://localhost:6005/getOrders',
+  {
+    params:{
+      NgoId:'1234'
+    }
+  }).then((res)=>{
+      console.log(res);
+      setOrders(res.data);
+    }).catch((e)=>{
+      console.log(e);
+    })
+    return ()=>{};
 }, [])
   return (
     <>
@@ -39,7 +51,7 @@ useEffect(() => {
           <NavLink to={'/addLocation'}>
             <button className="addLocation">Add Location</button>
           </NavLink>
-          {data.order.map((ele,index)=>{
+          {orders.map((ele,index)=>{
               return <Order key={index} type={"Tracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
             })}
 

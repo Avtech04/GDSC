@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Appstate } from '../../contextApi';
 
 export const Book = (props) => {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const { userEmail } = Appstate();
  
   const [type, setType] = useState('');
@@ -16,35 +16,25 @@ export const Book = (props) => {
     e.preventDefault();
     console.log(props);
     if(props.userCoordinate&&props.userCoordinate.length>0){
-      const longitude=props.userCoordinate[0];
-      const latitude=props.userCoordinate[1];
+      const userCoordinate=props.userCoordinate;
+      console.log(props.bookDetail);
+      const NgoId=props.bookDetail.NgoId;
+      const LocationId=props.bookDetail._id;
+      console.log(LocationId);
     try {
       await axios.post('http://localhost:6005/maps', {
         type,
         freshness,
         quantity,
-        longitude,
-        latitude,
+        userCoordinate,
+        NgoId,
+        LocationId,
         userEmail, // Add the user's email to the request payload
+
       })
-     
-        .then((res) => {
-            
-            
-            alert("working")
-          if (res.data === 'exist') {
-            
-            alert('User already exists');
-          } else if (res.data === 'notexist') {
-            history('/home', { state: { id: type } });
-          }
-        })
-        .catch((e) => {
-          alert('wrong details');
-          console.log(e);
-        });
+      navigate('/userDashBoard');
+      
     } catch (e) {
-        alert('wrong detailssssssssssss');
       console.log(e);
     }
   }

@@ -10,7 +10,7 @@ import "./map.css";
 import { haversine_distance } from './haversine_distance';
 import { Order} from './userComponents/Order';
 import { Book } from './userComponents/Book';
-const data1=require('./location.json');
+import axios from 'axios';
 
 export const Map = () => {
   const [map,setMap]=useState({});
@@ -19,8 +19,10 @@ export const Map = () => {
   const [bookingState,setBookingState]=useState(false);
   const [check,setCheck]=useState(false);
   const [markers,setMarkers]=useState([]);
-  // mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
-  mapboxgl.accessToken =  `pk.eyJ1IjoiYW5raXQzMTMwIiwiYSI6ImNscnA1OHoxejAwcGcybG9mNDRyeGN4MHcifQ.j3Xp9yhfyvgdL5Kh5Jqc3Q`
+  const [location,setLocation]=useState([]);
+  const [bookDetail,setBookDetail]=useState();
+  mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
+
    useEffect(()=>{
     const mp = new mapboxgl.Map({
       container: 'map',
@@ -29,7 +31,6 @@ export const Map = () => {
       zoom:10
     });
     setMap(mp);
-    
   },[])
 
   useEffect(()=>{
@@ -46,34 +47,46 @@ export const Map = () => {
     }
   },[userCoordinate])
 
-  const onClick=()=>{
+  const onClick=async()=>{
     let bnd=[];
+    
     bnd.push(userCoordinate);
-    data1.data.forEach((d)=>{
-       let dis=haversine_distance(userCoordinate,d.Center);
-       let arr=d.Center;
-       bnd.push(arr);
-       //console.log(d);
-       if(map){
-        const marker1= new mapboxgl.Marker().setLngLat(arr).addTo(map);
-        setMarkers([...markers,marker1]);
-       }
-    })
-    if(map){
-      map.fitBounds(bnd,{
-        padding:60
-      })
+    //fetch data of Ngo's nearby 
+    const data= await axios.get('http://localhost:6005/getLocation');
+    console.log(data.data);
+    if(data.data&&location){
+    setLocation(data.data);
     }
+    console.log(location);
+
+    location.forEach((d)=>{
+       let dis=haversine_distance(userCoordinate,d.Center);
+      
+        let arr=d.Center;
+        bnd.push(arr);
+        if(map){
+         const marker1= new mapboxgl.Marker().setLngLat(arr).addTo(map);
+         setMarkers([...markers,marker1]);
+        
+       }
+       
+    })
+    console.log(bnd);
+    // if(map){
+    //   map.fitBounds(bnd,{
+    //     padding:60
+    //   })
+    // }
     setCheck(true);
   }
 
   useEffect(()=>{
-    if(bookingState&&destCoordinate&&destCoordinate.Center&&destCoordinate.Center.length>0){
+    if(bookingState&&destCoordinate&&destCoordinate.length>0){
      
       if(map){
         
-      console.log(userCoordinate,destCoordinate.Center);
-        let arr=[userCoordinate,destCoordinate.Center];
+      console.log(userCoordinate,destCoordinate);
+        let arr=[userCoordinate,destCoordinate];
         console.log(markers);
         markers.forEach((marker)=>{
           console.log(marker);
@@ -81,7 +94,7 @@ export const Map = () => {
         })
 
         const marker1=new mapboxgl.Marker().setLngLat(userCoordinate).addTo(map);
-        const marker2=new mapboxgl.Marker().setLngLat(destCoordinate.Center).addTo(map);
+        const marker2=new mapboxgl.Marker().setLngLat(destCoordinate).addTo(map);
         map.fitBounds(arr,{
           padding:60
         })
@@ -96,14 +109,15 @@ export const Map = () => {
       <Wrapper>
         {bookingState?
         <Booking>
-          <Book userCoordinate={userCoordinate}/>
+          <Book userCoordinate={userCoordinate} bookDetail={bookDetail} />
         </Booking>
         :
         <SearchWrapper>
           <Search setUserCoordinate={setUserCoordinate} onClick={onClick}/>
           {check?<>
-            {data1.data.map((ele,index)=>{
-              return <Order key={index} type={"Booking"}  setDestCoordinate={setDestCoordinate} setBookingState={setBookingState} details={ele}/>
+          {console.log(location)}
+            {location.map((ele,index)=>{
+              return <Order key={index} type={"Booking"}  setDestCoordinate={setDestCoordinate} setBookingState={setBookingState} setBookDetail={setBookDetail} details={ele}/>
             })}
           </>:<></>}
         </SearchWrapper>}
@@ -132,19 +146,3 @@ const Booking =styled.div`
   flex:1;
 `
 
-/*
-https://api.mapbox.com/directions/v5/mapbox/driving/81.863304%2C25.493391%3B81.8338%2C25.43813?alternatives=false&geometries=polyline&overview=simplified&steps=false&notifications=none&access_token=pk.eyJ1IjoiYW5raXQzMTMwIiwiYSI6ImNscnA1MXJ5cTAyMTQya21hbGl0N3lwZTAifQ.89aC0m9Q8uHXZpc9Yqk6nQ
-*/
-/*
-var directions = new MapboxDirections({
-        accessToken: mapboxgl.accessToken,
-        profile: 'mapbox/driving',
-    });
-
-
-    map.addControl(directions,'top-left');
-  
-    directions.setOrigin(userCoordinate); 
-    directions.setDestination(destCoordinate.Center);
-
-*/

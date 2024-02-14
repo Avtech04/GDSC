@@ -5,7 +5,8 @@ export const Order = (props) => {
     const navigate=useNavigate();
     const onClick=()=>{
         if(props.type==="Booking"){
-            props.setDestCoordinate(props.details);
+            props.setBookDetail(props.details);
+            props.setDestCoordinate(props.details.coordinates);
             props.setBookingState(true);
         }else{
             props.setBookDetail(props.details)

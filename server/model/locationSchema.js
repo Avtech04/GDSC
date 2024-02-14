@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
 const locationSchema = new mongoose.Schema({
-    locality:String,
+    ngoName:String,
+    NgoId:String,
     description:String,
     peoples:Number,
-    city:String,
-    longitude:Number,
-    latitude:Number,
+    address:String,
+    coordinates:[],
 },{timestamps:true});
 
 

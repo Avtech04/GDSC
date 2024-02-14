@@ -15,9 +15,14 @@ const orderSchema = new mongoose.Schema({
     food_type: String,
     freshness: String,
     quantity: Number,
-    longitude: Number,
-    latitude: Number,
+    userCoordinate:[],
     order_email: String,
+    NgoId:String,
+    LocationId:String,
+    status:{
+        type:Boolean,
+        default:false,
+    }
 }, { timestamps: true });
 
 // Middleware to increment the orderid before saving

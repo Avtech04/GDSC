@@ -1,55 +1,75 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Order } from './Order';
 import { NgoOrder } from '../NgoOrder';
+import axios from 'axios';
+import '../../App.css';
+import io from 'socket.io-client';
+const ENDPOINT = "http://localhost:6005";
 
-import '../../App.css'
-const data=require('../../order.json');
+const data = require('../../order.json');
 
 export const UserDashboard = () => {
-    const navigate=useNavigate();
-    const [startOrder,setStartOrder]=useState(false);
-    const [bookDetail,setBookDetail]=useState({});
-    const onClick=()=>{
-        navigate('/maps')
-    }
+  const navigate = useNavigate();
+  const [startOrder, setStartOrder] = useState(false);
+  const [bookDetail, setBookDetail] = useState({});
+  const [socket,setSocket]=useState(null);
+  const [orders, setOrders] = useState([]);
+  const onClick = () => {
+    navigate('/maps')
+  }
+  useEffect( () => {
+    //get the orders related to user(current+previous)
+     axios.get('http://localhost:6005/getOrders',
+      {
+        params: {
+          emailId: '123@123'
+        }
+      }).then((res) => {
+        console.log(res);
+        setOrders(res.data);
+      }).catch((e) => {
+        console.log(e);
+      })
+      setSocket(io(ENDPOINT));
+  }, []);
   return (
     <Wrapper>
-        {startOrder?<>
-            <NgoOrder bookDetail={bookDetail} />
-        </>:
+      {startOrder ? <>
+        <NgoOrder bookDetail={bookDetail} socket={socket} />
+      </> :
         <>
-     
-      <h1>      Analytics</h1>
-    
-        <div className="dashboard">
-        <div className='details'>
-            <button className='Donate-button' onClick={onClick}>Donate Excess food</button>
-        </div>
-        <div className="orders">
-        <div className='order'>
-            <p>Your upcoming Order</p>
-            {data.order.map((ele,index)=>{
-              return <Order key={index} type={"Tracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
-            })}
+
+          <h1>Analytics</h1>
+
+          <div className="dashboard">
+            <div className='details'>
+              <button className='Donate-button' onClick={onClick}>Donate Excess food</button>
             </div>
-        <div>
-            <p>Your past Orders</p>
-            
-            {data.order.map((ele,index)=>{
-              return <Order key={index} type={"Tracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
-            })}
+            <div className="orders">
+              <div className='order'>
+                <p>Your upcoming Order</p>
+                {orders.map((ele, index) => {
+                  return <Order key={index} type={"Tracking"} setDestCoordinate={() => { }} setBookingState={() => { }} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele} />
+                })}
+              </div>
+              <div>
+                <p>Your past Orders</p>
+
+                {orders.map((ele, index) => {
+                  return <Order key={index} type={"Tracking"} setDestCoordinate={() => { }} setBookingState={() => { }} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele} />
+                })}
+              </div>
             </div>
-            </div>
-            </div>
-            </>
-}
+          </div>
+        </>
+      }
     </Wrapper>
   )
 }
 
-const Wrapper=styled.div`
+const Wrapper = styled.div`
     display:flex;
     flex-direction:column;
 `

@@ -4,19 +4,27 @@ import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-direct
 import 'mapbox-gl/dist/mapbox-gl.css';
 import styled from 'styled-components';
 import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
-import io from 'socket.io-client';
-const ENDPOINT = "http://localhost:3001";
+
+import axios from 'axios';
+
 export const NgoOrder = (props) => {
-    // mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
-    mapboxgl.accessToken =  `pk.eyJ1IjoiYW5raXQzMTMwIiwiYSI6ImNscnA1OHoxejAwcGcybG9mNDRyeGN4MHcifQ.j3Xp9yhfyvgdL5Kh5Jqc3Q`
-    const [socket,setSocket]=useState(null);
+    mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
+    
     const [start,setStart]=useState(false);
     const [value,setValue]=useState([]);
     const [map,setMap]=useState();
     const [direc,setDirec]=useState();
    
-    useEffect(()=>{
-      setSocket(io(ENDPOINT));
+    const getdata=async()=>{
+      try{
+      let data=await axios.get('http://localhost:6005/getLocation',
+      {
+        params:{
+          id:props.bookDetail.LocationId
+        }
+      });
+      
+        
         const mp = new mapboxgl.Map({
             container: 'map1',
             style: 'mapbox://styles/mapbox/streets-v12',
@@ -31,17 +39,24 @@ export const NgoOrder = (props) => {
     
     
         mp.addControl(directions,'top-left');
-      
-        directions.setOrigin(props.bookDetail.ngoCoord); 
-        directions.setDestination(props.bookDetail.userCoord);
+        console.log(props.bookDetail);
+        console.log(data.data);
+        directions.setOrigin(data.data[0].coordinates); 
+        directions.setDestination(props.bookDetail.userCoordinate);
         setMap(mp);
         setDirec(directions);
+      }catch(error){
+        console.log(error);
+      }
+    }
+    useEffect(()=>{
+      getdata();
     },[props.bookDetail])
   
     const onClick=()=>{
-      console.log(socket);
-      if(socket){
-      socket.emit("startTracking",props.bookDetail);
+      
+      if(props.socket){
+       props.socket.emit("startTracking",props.bookDetail);
         if(!navigator.geolocation){
             alert("Your Browser do Not accept Geolocation API");
         }else{
@@ -56,7 +71,7 @@ export const NgoOrder = (props) => {
               longitude
           } = position.coords;
          setValue([latitude,longitude]);
-         socket.emit("sendLocation",value);
+         props.socket.emit("sendLocation",value);
          if(map&&direc){
           direc.setOrigin([longitude,latitude]);
          }
