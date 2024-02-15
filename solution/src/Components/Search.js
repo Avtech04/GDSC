@@ -36,7 +36,7 @@ const Search = (props) => {
   };
 
   useEffect(()=>{
-    //console.log(coordinate);
+    props.setUserAddress(value);
     props.setUserCoordinate(coordinate);
     
   },[coordinate])

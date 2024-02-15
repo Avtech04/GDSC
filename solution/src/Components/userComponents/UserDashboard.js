@@ -46,7 +46,7 @@ export const UserDashboard = () => {
   return (
     <Wrapper>
       {startOrder ? <>
-        <NgoOrder bookDetail={bookDetail} socket={socket} />
+        <NgoOrder bookDetail={bookDetail} socket={socket} type="User"/>
       </> :
         <>
      
@@ -62,15 +62,15 @@ export const UserDashboard = () => {
         <div className="orders">
         <div className='order'>
             <p>Your upcoming Order</p>
-            {data.order.map((ele,index)=>{
-              return <Order key={index} type={"Tracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
+            {orders.map((ele,index)=>{
+              return <Order key={index} type={"UserTracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
             })}
             </div>
         <div>
             <p>Your past Orders</p>
             
-            {data.order.map((ele,index)=>{
-              return <Order key={index} type={"Tracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
+            {orders.map((ele,index)=>{
+              return <Order key={index} type={"UserTracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
             })}
             </div>
             </div>

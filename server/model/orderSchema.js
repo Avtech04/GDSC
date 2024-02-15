@@ -19,6 +19,8 @@ const orderSchema = new mongoose.Schema({
     order_email: String,
     NgoId:String,
     LocationId:String,
+    userAddress:String,
+    distance:String,
     status:{
         type:Boolean,
         default:false,

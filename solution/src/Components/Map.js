@@ -16,6 +16,7 @@ export const Map = () => {
   const [map,setMap]=useState({});
   const [userCoordinate,setUserCoordinate]=useState([]);
   const [destCoordinate,setDestCoordinate]=useState([]);
+  const [userAddress,setUserAddress]=useState();
   const [bookingState,setBookingState]=useState(false);
   const [check,setCheck]=useState(false);
   const [markers,setMarkers]=useState([]);
@@ -59,10 +60,10 @@ export const Map = () => {
     }
     console.log(location);
 
-    location.forEach((d)=>{
-       let dis=haversine_distance(userCoordinate,d.Center);
-      
-        let arr=d.Center;
+    data.data.forEach((d)=>{
+       let dis=haversine_distance(userCoordinate,d.coordinates);
+        console.log(d);
+        let arr=d.coordinates;
         bnd.push(arr);
         if(map){
          const marker1= new mapboxgl.Marker().setLngLat(arr).addTo(map);
@@ -72,11 +73,13 @@ export const Map = () => {
        
     })
     console.log(bnd);
-    // if(map){
-    //   map.fitBounds(bnd,{
-    //     padding:60
-    //   })
-    // }
+    if(bnd.length>1){
+    if(map){
+      map.fitBounds(bnd,{
+        padding:60
+      })
+    }
+  }
     setCheck(true);
   }
 
@@ -109,15 +112,15 @@ export const Map = () => {
       <Wrapper>
         {bookingState?
         <Booking>
-          <Book userCoordinate={userCoordinate} bookDetail={bookDetail} />
+          <Book userCoordinate={userCoordinate} bookDetail={bookDetail} userAddress={userAddress}/>
         </Booking>
         :
         <SearchWrapper>
-          <Search setUserCoordinate={setUserCoordinate} onClick={onClick}/>
+          <Search setUserCoordinate={setUserCoordinate} onClick={onClick} setUserAddress={setUserAddress}/>
           {check?<>
           {console.log(location)}
             {location.map((ele,index)=>{
-              return <Order key={index} type={"Booking"}  setDestCoordinate={setDestCoordinate} setBookingState={setBookingState} setBookDetail={setBookDetail} details={ele}/>
+              return <Order key={index} type={"Booking"}  setDestCoordinate={setDestCoordinate} setBookingState={setBookingState} setBookDetail={setBookDetail} userCoordinate={userCoordinate} details={ele}/>
             })}
           </>:<></>}
         </SearchWrapper>}

@@ -282,7 +282,9 @@ app.post("/maps", async (req, res) => {
             userCoordinate: req.body.userCoordinate,
             order_email: req.body.userEmail,
             LocationId:req.body.LocationId,
-            NgoId: req.body.NgoId
+            NgoId: req.body.NgoId,
+            userAddress:req.body.userAddress,
+            distance:req.body.distance
 
         });
 
@@ -314,21 +316,20 @@ const io = require("socket.io")(http, {
     }});
 io.on("connection", (socket) => {
     socket.on("startTracking", (data) => {
-        // socket.roomId = data.id;
-        // socket.join(data.id);
-        console.log("YES");
+        socket.roomId = data;
+        socket.join(data);
+        //console.log(data);
         
     });
     socket.on("sendLocation", (data) => {
+        //console.log(data);
         socket.to(socket.roomId).emit("recieveLocation", data);
     })
 
 });
 
 
-// app.listen(port,()=>{
-//     console.log(`Server listening on port 6005`);
-// })
+
 
 //starting server
 http.listen(6005, () => {

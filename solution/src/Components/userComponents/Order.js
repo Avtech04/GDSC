@@ -1,8 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { haversine_distance } from '../haversine_distance';
 import styled from 'styled-components';
+import axios from 'axios';
+
 export const Order = (props) => {
     const navigate=useNavigate();
+    const [name,setName]=useState();
+    const [address,setAddress]=useState();
+    const [distance,setDistance]=useState();
+    const [person,setPerson]=useState();
+    const locationData=async()=>{
+        
+        let data = await axios.get('http://localhost:6005/getLocation',
+        {
+          params: {
+            id: props.details.LocationId
+          }
+        });
+        setName(data.data[0].ngoName);
+        setAddress(data.data[0].address);
+
+    }
+    useEffect(()=>{
+        if(props.type==="Booking"){
+            setName(props.details.ngoName);
+            setAddress(props.details.address);
+            setPerson(props.details.peoples);
+            const dist=haversine_distance(props.userCoordinate,props.details.coordinates);
+            setDistance(dist);
+        }else if(props.type==="UserTracking"){
+           locationData();
+           setDistance(props.details.distance);
+           setPerson(props.details.quantity);
+        }else{
+            setName(props.details.order_email);
+            setAddress(props.details.userAddress);
+            setPerson(props.details.quantity);
+            setDistance(props.details.distance);
+        }
+    },[props.details])
     const onClick=()=>{
         if(props.type==="Booking"){
             props.setBookDetail(props.details);
@@ -17,12 +54,12 @@ export const Order = (props) => {
   return (
     <Wrapper onClick={onClick}>
         <Details>
-            <p>ABC NGO FOUNDATION</p>
-            <h5>Jaipur,Rajasthan</h5>
+            <p>{name}</p>
+            <h5>{address}</h5>
         </Details>
         <Contribution>
-            <p>Distance: 10km</p>
-            <p>5 meal</p>
+            <p>Distance:{distance}km</p>
+            <p>{person}meal</p>
         </Contribution>
     </Wrapper>
   )
