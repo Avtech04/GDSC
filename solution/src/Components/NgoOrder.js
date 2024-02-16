@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
 
 import axios from 'axios';
+import { haversine_distance } from './haversine_distance';
 
 export const NgoOrder = (props) => {
   mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
@@ -45,7 +46,7 @@ export const NgoOrder = (props) => {
       directions.setDestination(props.bookDetail.userCoordinate);
       setMap(mp);
       setDirec(directions);
-      props.socket.emit("startTracking",props.bookDetail._id);
+      props.socket.emit("startTracking", props.bookDetail._id);
     } catch (error) {
       console.log(error);
     }
@@ -57,14 +58,13 @@ export const NgoOrder = (props) => {
   const onClick = () => {
 
     if (props.socket) {
-      
+
       if (!navigator.geolocation) {
         alert("Your Browser do Not accept Geolocation API");
       } else {
         setStart(true);
 
-        setInterval(() => {
-          // alert("YES");
+        var intervalId = setInterval(() => {
           navigator.geolocation.getCurrentPosition(onSuccess);
           function onSuccess(position) {
             const {
@@ -72,9 +72,16 @@ export const NgoOrder = (props) => {
               longitude
             } = position.coords;
             setValue([latitude, longitude]);
-            props.socket.emit("sendLocation",{latitude,longitude});
+            props.socket.emit("sendLocation", { latitude, longitude });
             if (map && direc) {
               direc.setOrigin([longitude, latitude]);
+            }
+            let destCoord = [longitude, latitude];
+            let dist = haversine_distance(props.bookDetail.userCoordinate, destCoord);
+            if (dist <= 0.1) {
+              alert("YOUR ORDER HAS BEEN SUCCESSFULLY COMPLETED");
+              props.socket.emit("stopTracking");
+              clearInterval(intervalId);
             }
           }
         }, 5000);
@@ -85,11 +92,14 @@ export const NgoOrder = (props) => {
     }
   }
 
-  props.socket.on("recieveLocation",(data)=>{
-    
-            if (map && direc) {
-              direc.setOrigin([data.longitude, data.latitude]);
-            }
+  props.socket.on("recieveLocation", (data) => {
+
+    if (map && direc) {
+      direc.setOrigin([data.longitude, data.latitude]);
+    }
+  });
+  props.socket.on("stopTracking",()=>{
+    alert("YOUR ORDER HAS BEEN SUCCESSFULLY COMPLETED")
   })
 
   return (
@@ -98,17 +108,17 @@ export const NgoOrder = (props) => {
         <div>
           {props.bookDetail.userCoordinate}
         </div>
-      
-      {props.type==="User"?
-      <div style={{ flex: "1" }}>{value}</div>:<>
-      {start ?
-        <div style={{ flex: "1" }}>{value}</div>
-        : 
-        <button onClick={onClick}>Start</button>
-        
-        }
-        </>}
-        </InfoWrapper>
+
+        {props.type === "User" ?
+          <div style={{ flex: "1" }}>{value}</div> : <>
+            {start ?
+              <div style={{ flex: "1" }}>{value}</div>
+              :
+              <button onClick={onClick}>Start</button>
+
+            }
+          </>}
+      </InfoWrapper>
       <MapWrapper id="map1"></MapWrapper>
     </Wrapper>
   )

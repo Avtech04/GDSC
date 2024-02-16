@@ -19,12 +19,13 @@ const data = require('../../order.json');
 export const UserDashboard = () => {
 
 
-  const {UserEmail}=Appstate();
+  const {userEmail}=Appstate();
   const navigate = useNavigate();
   const [startOrder, setStartOrder] = useState(false);
   const [bookDetail, setBookDetail] = useState({});
   const [socket,setSocket]=useState(null);
   const [orders, setOrders] = useState([]);
+  const [completedOrders,setCompletedOrders]=useState([]);
   const onClick = () => {
     navigate('/maps')
   }
@@ -33,11 +34,21 @@ export const UserDashboard = () => {
      axios.get('http://localhost:6005/getOrders',
       {
         params: {
-          emailId: UserEmail,
+          emailId: userEmail,
         }
       }).then((res) => {
         console.log(res);
-        setOrders(res.data);
+        let arr1=[];
+        let arr2=[];
+        res.data.forEach((ele) => {
+          if(!ele.status){
+            arr1.push(ele);
+          }else{
+            arr2.push(ele);
+          }
+        });
+        setOrders(arr1);
+        setCompletedOrders(arr2);
       }).catch((e) => {
         console.log(e);
       })
@@ -69,7 +80,7 @@ export const UserDashboard = () => {
         <div>
             <p>Your past Orders</p>
             
-            {orders.map((ele,index)=>{
+            {completedOrders.map((ele,index)=>{
               return <Order key={index} type={"UserTracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
             })}
             </div>

@@ -324,6 +324,9 @@ io.on("connection", (socket) => {
     socket.on("sendLocation", (data) => {
         //console.log(data);
         socket.to(socket.roomId).emit("recieveLocation", data);
+    });
+    socket.on("stopTracking",()=>{
+        socket.to(socket.roomId).emit("stopTracking");
     })
 
 });

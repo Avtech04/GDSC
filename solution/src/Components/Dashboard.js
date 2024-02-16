@@ -13,6 +13,7 @@ const Dashboard = () => {
   const [startOrder,setStartOrder]=useState(false);
   const [bookDetail,setBookDetail]=useState({});
   const [orders,setOrders]=useState([]);
+  const [completedOrders,setCompletedOrders]=useState([]);
   const [socket,setSocket]=useState(null);
   const navigate = useNavigate();
 
@@ -35,8 +36,17 @@ useEffect(() => {
       NgoId:'1234'
     }
   }).then((res)=>{
-      console.log(res);
-      setOrders(res.data);
+    let arr1=[];
+    let arr2=[];
+    res.data.forEach((ele) => {
+      if(!ele.status){
+        arr1.push(ele);
+      }else{
+        arr2.push(ele);
+      }
+    });
+    setOrders(arr1);
+    setCompletedOrders(arr2);
     }).catch((e)=>{
       console.log(e);
     })
@@ -55,9 +65,15 @@ useEffect(() => {
           <NavLink to={'/addLocation'}>
             <button className="addLocation">Add Location</button>
           </NavLink>
+          <h1>Pending Orders</h1>
           {orders.map((ele,index)=>{
               return <Order key={index} type={"NgoTracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
             })}
+          <h1>completed Orders</h1>
+          {completedOrders.map((ele,index)=>{
+              return <Order key={index} type={"NgoTracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
+            })}
+
 
            
     </div>
