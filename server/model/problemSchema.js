@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const problemSchema = new mongoose.Schema({
     headline:String,
     description:String,
+    filename:String,
 },{timestamps:true});
 
 

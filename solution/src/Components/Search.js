@@ -19,7 +19,7 @@ const Search = (props) => {
 
   const handleInputChange = async (query) => {
      
-    try {
+    try { 
       await axios.get(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json`,
         {
@@ -46,6 +46,35 @@ const Search = (props) => {
     setSuggestions([]);
   };
 
+  const currentLocation=()=>{
+    navigator.geolocation.getCurrentPosition(onSuccess);
+          async function onSuccess(position) {
+            const {
+              latitude,
+              longitude
+            } = position.coords;
+            props.setUserCoordinate([longitude, latitude]);
+            try{
+            await axios.get(
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json`,
+              {
+                params: {
+                  // access_token:  `${process.env.REACT_APP_MAP_KEY}` ,
+                  access_token:  `pk.eyJ1IjoiYW5raXQzMTMwIiwiYSI6ImNscnA1OHoxejAwcGcybG9mNDRyeGN4MHcifQ.j3Xp9yhfyvgdL5Kh5Jqc3Q`
+                     },
+              }
+            ).then((response)=>{
+                if(response.data.features.length>0){
+                  props.setUserAddress(response.data.features[0].place_name)}})
+                  props.onClick();
+          } catch (error) {
+            console.log(error);
+          }
+
+           
+
+      }
+  }
 
   
   return (
@@ -55,7 +84,8 @@ const Search = (props) => {
        <div>
         
       <div className='autoCompleteInputContainer'  >
-    
+        <button onClick={currentLocation}>Choose current location</button>
+        <p>or</p>
         <input
           id="address"
           type="text" style={{width: "27vw",

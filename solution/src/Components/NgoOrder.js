@@ -66,7 +66,7 @@ export const NgoOrder = (props) => {
 
         var intervalId = setInterval(() => {
           navigator.geolocation.getCurrentPosition(onSuccess);
-          function onSuccess(position) {
+          async function onSuccess(position) {
             const {
               latitude,
               longitude
@@ -79,6 +79,12 @@ export const NgoOrder = (props) => {
             let destCoord = [longitude, latitude];
             let dist = haversine_distance(props.bookDetail.userCoordinate, destCoord);
             if (dist <= 0.1) {
+              await axios.put('http://localhost:6005/updateOrder',
+              {
+                params: {
+                  id: props.bookDetail._id
+                }
+              });
               alert("YOUR ORDER HAS BEEN SUCCESSFULLY COMPLETED");
               props.socket.emit("stopTracking");
               clearInterval(intervalId);

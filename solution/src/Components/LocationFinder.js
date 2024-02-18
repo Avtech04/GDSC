@@ -33,7 +33,7 @@ export const LocationFinder = (props) => {
   },[mapState])
   
   const confirmClick=async()=>{
-        //alert('YS');
+        //alert('YS'); 
         if(coordinate&&coordinate.length>0){
             //alert(coordinate);
             props.setCoordinate(coordinate);

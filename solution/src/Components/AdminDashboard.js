@@ -117,7 +117,7 @@ const handleStatusChange = async (id) => {
       <div className='demo' style={{display:'flex', flexWrap:'wrap'}}>
       {problems.map(problem => (
                 <Card key={problem._id} className='cardd_alter'  style={{flexBasis:'30%'}}>
-                    <Card.Img variant="top" src="https://picsum.photos/2000/2000" className='card-img' />
+                    <Card.Img variant="top" src={`http://localhost:6005/files/${problem.filename}`} className='card-img' />
                     <Card.Body>
                         <Card.Title className='card_title'>{problem.headline}</Card.Title>
                         <Card.Text className='card_description'>{problem.description}</Card.Text>

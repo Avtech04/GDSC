@@ -13,6 +13,8 @@ const locationdb = require("./model/locationSchema")
 const donerdb = require("./model/donerSchema")
 const orderdb = require("./model/orderSchema")
 const http = require("http").Server(app);
+const multer = require("multer");
+
 
 
 
@@ -26,6 +28,7 @@ app.use(cors({
     credentials:true
 }));
 app.use(express.json());
+app.use('/files',express.static("files"));
 
 
 app.use(session({
@@ -75,14 +78,20 @@ passport.use(
 
 
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./files");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now();
+    cb(null, uniqueSuffix + file.originalname);
+  },
+});
 
-app.post("/createProblem", async (req, res) => {
-    // const{headline,description}=req.body
+const upload = multer({ storage: storage });
 
-    // const data={
-    //     headline:headline,
-    //     description:description
-    // }
+app.post("/createProblem",upload.single('file'), async (req, res) => {
+    
 
     try {
         let user = await problemdb.findOne({ headline: req.body.headline });
@@ -90,11 +99,15 @@ app.post("/createProblem", async (req, res) => {
         if (!user) {
             user = new problemdb({
                 headline: req.body.headline,
-                description: req.body.description
+                description: req.body.description,
+                filename:req.file.filename
 
             });
 
             await user.save();
+            res.send("notexist");
+        }else{
+            res.send("exist");
         }
 
 
@@ -316,6 +329,16 @@ app.get('/getOrders',async(req,res)=>{
     }
     res.send(data);
 
+})
+
+app.put('/updateOrders',async(req,res)=>{
+    const orderId=req.query.id;
+    try{
+        let order=await orderdb.findByIdAndUpdate(orderId,{status:true})
+        res.status(200).send("order completed successfully");
+    }catch(err){
+        res.status(404).send(err);
+    }
 })
 
 const io = require("socket.io")(http, {

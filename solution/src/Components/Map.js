@@ -50,7 +50,7 @@ export const Map = () => {
 
   const onClick=async()=>{
     let bnd=[];
-    
+    console.log(userCoordinate);
     bnd.push(userCoordinate);
     //fetch data of Ngo's nearby 
     const data= await axios.get('http://localhost:6005/getLocation');
