@@ -22,7 +22,8 @@ export const Map = () => {
   const [markers,setMarkers]=useState([]);
   const [location,setLocation]=useState([]);
   const [bookDetail,setBookDetail]=useState();
-  mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
+  mapboxgl.accessToken = `pk.eyJ1IjoiYW5raXQzMTMwIiwiYSI6ImNscnA1OHoxejAwcGcybG9mNDRyeGN4MHcifQ.j3Xp9yhfyvgdL5Kh5Jqc3Q`
+  ;
 
    useEffect(()=>{
     const mp = new mapboxgl.Map({

@@ -9,11 +9,11 @@ const ProblemPage = ({ headline, description }) => {
    
     const {problemHeadline} = Appstate();
     const {problemDescription} = Appstate();
-  const notify = () => toast("Wow so easy!");
+  const notify = () => toast("Payment Successfull!");
   return (
     <>
       <div style={{textAlign:"center"}}>
-        <h1>{problemHeadline}</h1>
+        <h1 style={{paddingTop: '12px',}}>{problemHeadline}</h1>
       </div>
 
       <div className='problem-container'>
@@ -25,8 +25,8 @@ const ProblemPage = ({ headline, description }) => {
               alt="Problem slide" 
             />
           </div>
-          <div>
-              {/* <button className='Donate-button' onClick={notify} style={{textAlign:"center"}}>Donate now</button> */}
+          <div style={{textAlign:'center'}}>
+              <button className='Donate-button' onClick={notify} style={{textAlign:"center"}}>Donate now</button>
               <GooglePayButton
   environment="TEST"
   paymentRequest={{
@@ -61,11 +61,9 @@ const ProblemPage = ({ headline, description }) => {
     },
   }}
   onLoadPaymentData={paymentRequest => {
-    const gatewayMerchantId = paymentRequest.allowedPaymentMethods[0].tokenizationSpecification.parameters.gatewayMerchantId;
-    console.log('Gateway Merchant ID:', gatewayMerchantId);
+    console.log('load payment data', paymentRequest);
   }}
 />
-
           </div>
         </div>
         <div className='right-problem-container'>{problemDescription}

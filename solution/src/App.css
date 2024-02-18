@@ -28,8 +28,14 @@ body {
 .right-problem-container{
   width: 70vw;
   margin: 12px;
-  background: #f3f3f3;
+  background: #271f1f;
   padding: 12px;
+  font-size: 19px;
+  text-align: center;
+  color: white;
+  border-radius: 20px;
+  padding: 25px;
+
 }
 
 .image-problems img{

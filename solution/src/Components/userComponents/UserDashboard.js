@@ -94,14 +94,14 @@ export const UserDashboard = () => {
       className="mb-3"
       fill
     >
-      <Tab eventKey="completed" title="Completed Orders">
-      <h1>Your upcoming Order</h1>
+      <Tab eventKey="completed" title="Pending Orders">
+      <h1>Your past Orders</h1>
       {orders.map((ele,index)=>{
               return <Order key={index} type={"UserTracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
             })}
       </Tab>
-      <Tab eventKey="pending" title="Pending Orders">
-      <h1>Your past Orders</h1>
+      <Tab eventKey="pending" title="Completed Orders">
+      <h1>Your Completed Orders</h1>
       {completedOrders.map((ele,index)=>{
               return <Order key={index} type={"UserTracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
             })}

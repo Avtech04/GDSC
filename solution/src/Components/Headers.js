@@ -34,24 +34,9 @@ const Headers = () => {
         getUser()
     }, [])
 
-    const googleTranslateElementInit = () => {
-        new window.google.translate.TranslateElement(
-          {
-            pageLanguage: "en",
-            autoDisplay: false
-          },
-          "google_translate_element"
-        );
-      };
-      useEffect(() => {
-        // var addScript = document.createElement("script");
-        // addScript.setAttribute(
-        //   "src",
-        //   "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-        // );
-        // document.body.appendChild(addScript);
-        // window.googleTranslateElementInit = googleTranslateElementInit;
-      }, []);
+    
+     
+     
 
     //   <header>
     //             <nav>
@@ -101,18 +86,21 @@ const Headers = () => {
     //         </header>
     return (
         <>
+    
             <Navbar className='virtual_header' bg="dark" data-bs-theme="dark"  >
+            <div id="google_translate_element"></div>
         <Container>
           <Navbar.Brand href="#home">Solution Challenge</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/features">Features</Nav.Link>
-            <Nav.Link href="/login">Login</Nav.Link>
+            <Nav.Link href="/" >Home</Nav.Link>
+            <Nav.Link href="/features" >Features</Nav.Link>
+            <Nav.Link href="/login" style={{width: '100px',}}>Login</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
         </>
     )
 }
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 export default Headers

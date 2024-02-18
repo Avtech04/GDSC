@@ -8,6 +8,13 @@ import Tabs from 'react-bootstrap/Tabs';
 function Home() {
     const [NGOs, setNGOs] = useState([]);
     const [problems, setProblems] = useState([]);
+    const truncateDescription = (description) => {
+        const words = description.split(' ');
+        if (words.length > 20) {
+          return words.slice(0, 20).join(' ') + '...';
+        }
+        return description;
+      };
     useEffect(() => {
         async function fetchNGO() {
             try {
@@ -120,7 +127,7 @@ const handleStatusChange = async (id) => {
                     <Card.Img variant="top" src={`http://localhost:6005/files/${problem.filename}`} className='card-img' />
                     <Card.Body>
                         <Card.Title className='card_title'>{problem.headline}</Card.Title>
-                        <Card.Text className='card_description'>{problem.description}</Card.Text>
+                        <Card.Text className='card_description'>{truncateDescription(problem.description)}</Card.Text>
                        
                     </Card.Body>
                 </Card>

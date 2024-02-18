@@ -19,7 +19,13 @@ function Carousel() {
   
   // const { problemHeading, setProblemHeading } = useContext(UserContext);
   const navigate = useNavigate();
-
+  const truncateDescription = (description) => {
+    const words = description.split(' ');
+    if (words.length > 20) {
+      return words.slice(0, 20).join(' ') + '...';
+    }
+    return description;
+  };
   useEffect(() => {
     async function fetchProblems() {
       try {
@@ -43,10 +49,10 @@ function Carousel() {
       
       {problems.map(problem => (
         <Card key={problem._id} className='cardd' onClick={() => handleClick(problem._id)}>
-          <Card.Img variant="top" src="https://picsum.photos/2000/2000" className='card-img' />
+          <Card.Img variant="top" src={`http://localhost:6005/files/${problem.filename}`} className='card-img' />
           <Card.Body className='card_body'>
             <Card.Title className='card_title'>{problem.headline}</Card.Title>
-            <Card.Text className='card_description'>{problem.description}</Card.Text>
+            <Card.Text className='card_description'>{truncateDescription(problem.description)}</Card.Text>
             <Button variant="primary" className='Donate_btn' onClick={() => {
     
              setProblemHeadline(problem.headline);

@@ -70,10 +70,13 @@ const Create = () => {
             <form >
               
                 <input type="text" onChange={(e) => { setHeadline(e.target.value) }} placeholder="Headline"  />
-                <input type="text" onChange={(e) => { setDescription(e.target.value) }} placeholder="Description"  />
+                <textarea style={{    height: '20vh',
+    outline: 'none',
+    width: '21vw',padding: '12px',}} onChange={(e) => { setDescription(e.target.value) }} placeholder="Description"  />
+              
                 <button onClick={(e) => { onassign(e) }}>Select Image</button>
                 <input type='file' ref={fileref} name='myfile' style={{ display: "none" }} onChange={(e) => { setFile(e.target.files[0]) }} />
-                <input type="submit" onClick={submit}  placeholder="Create"/>
+                <input type="submit" onClick={submit} />
 
             </form>
            

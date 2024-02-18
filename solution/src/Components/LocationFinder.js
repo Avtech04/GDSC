@@ -66,10 +66,10 @@ export const LocationFinder = (props) => {
   return (
     <div>
        { !mapState?
-        <button onClick={()=>{setMapState(true)}}>Choose Location on Map</button>
+        <button onClick={()=>{setMapState(true)}} style={{marginBottom: '20px',}}>Choose Location on Map</button>
          :<>
         <MapWrapper id='map'></MapWrapper>
-        <button onClick={confirmClick}>Confirm Location</button>
+        <button onClick={confirmClick} style={{marginBottom: '20px',}}>Confirm Location</button>
         </>}
 
     </div>
@@ -78,5 +78,6 @@ export const LocationFinder = (props) => {
 
 const MapWrapper=styled.div`
   flex:1;
+  width:40vw;
   height:400px;
 `
