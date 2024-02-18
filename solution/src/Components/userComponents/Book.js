@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { haversine_distance } from '../haversine_distance';
 import { Appstate } from '../../contextApi';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export const Book = (props) => {
   const navigate = useNavigate();
   const { userEmail } = Appstate();
@@ -20,6 +21,7 @@ export const Book = (props) => {
   async function submit(e) {
     e.preventDefault();
     console.log(props);
+    console.log(userEmail);
     if(props.userCoordinate&&props.userCoordinate.length>0){
       const userCoordinate=props.userCoordinate;
       console.log(props.bookDetail);
@@ -39,7 +41,11 @@ export const Book = (props) => {
         userEmail,// Add the user's email to the request payload
 
       })
-      navigate('/userDashBoard');
+      console.log("Order Successful")
+      toast.success("order successful!");
+      setTimeout(() => {
+        navigate("/userdashboard");
+    }, 2000);
       
     } catch (e) {
       console.log(e);
@@ -49,12 +55,23 @@ export const Book = (props) => {
 
   return (
     <Wrapper>
-      <form action="POST">
-        <input type="text" onChange={(e) => { setType(e.target.value); }} placeholder="type" />
-        <input type="text" onChange={(e) => { setFreshness(e.target.value); }} placeholder="Select the Freshness of Food" />
-        <input type="number" onChange={(e) => { setQuantity(e.target.value); }} placeholder="quantity" />
-        <input type="submit" onClick={submit} />
+       <ToastContainer />
+       
+
+      <div className="login-page" style={{"margin-left": "5vw",
+}}>
+            
+            <div className="form">
+            <h1 style={{textAlign:"center"}}>Complete the details for the order!</h1>
+            <form action="POST">
+        <input type="text" onChange={(e) => { setType(e.target.value); }} placeholder="Type of food" /><br></br>
+        <input type="text" onChange={(e) => { setFreshness(e.target.value); }} placeholder="Select the Freshness of Food" /><br></br>
+        <input type="number" onChange={(e) => { setQuantity(e.target.value); }} placeholder="Quantity" /><br></br>
+        <input type="submit" placeholder='Confirm order' onClick={submit} className='btn2'  style={{background: "blue",
+    "font-size": "18px",}} />
       </form>
+            </div>
+            </div>
     </Wrapper>
   );
 };

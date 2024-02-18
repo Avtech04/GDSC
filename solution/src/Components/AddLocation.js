@@ -3,17 +3,18 @@ import "./login.css";
 import axios from "axios"
 import { useNavigate, Link } from "react-router-dom";
 import { LocationFinder } from "./LocationFinder";
+import { Appstate } from "../contextApi";
 
 
 const AddLocation = () => {
 
   const navigate = useNavigate();
-  
+  const {NgoUser}=Appstate();
   const [description, setDescription] = useState('')
   const [peoples, setPeoples] = useState('')
   const [address, setAddress] = useState('')
   const [coordinate, setCoordinate] = useState([]);
-  const ngoName="Ayush Ngo"
+  const ngoName=NgoUser.displayName;
   const lng=coordinate[0];
   const lat=coordinate[1];
   const submit=async()=>{
@@ -22,7 +23,7 @@ const AddLocation = () => {
     description,
     peoples,
     address,
-    NgoId:"1234",
+    NgoId:NgoUser.googleId,
     lng,
     lat
     });
@@ -34,7 +35,7 @@ const AddLocation = () => {
     <>
       <div className="login-page">
         <h1 style={{ textAlign: "center" }}>Add Location</h1>
-        <input type="text" value={"Aysuh"}/>
+        <input type="text" value={NgoUser.displayName}/>
         <input type="text" onChange={(e) => { setDescription(e.target.value) }} placeholder="description" />
         <input type="number" onChange={(e) => { setPeoples(e.target.value) }} placeholder="number of peoples" />
         <LocationFinder setAddress={setAddress} setCoordinate={setCoordinate} />

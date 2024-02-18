@@ -37,12 +37,14 @@ function Carousel() {
     navigate(`/problem/${id}`);
   };
 
-  return (
+  return (<>
+  <h1 className='problem_main_heading'>Donate For The Cause</h1>
     <div className='card-container'>
+      
       {problems.map(problem => (
         <Card key={problem._id} className='cardd' onClick={() => handleClick(problem._id)}>
           <Card.Img variant="top" src="https://picsum.photos/2000/2000" className='card-img' />
-          <Card.Body>
+          <Card.Body className='card_body'>
             <Card.Title className='card_title'>{problem.headline}</Card.Title>
             <Card.Text className='card_description'>{problem.description}</Card.Text>
             <Button variant="primary" className='Donate_btn' onClick={() => {
@@ -60,6 +62,7 @@ function Carousel() {
         </Card>
       ))}
     </div>
+    </>
   );
 }
 

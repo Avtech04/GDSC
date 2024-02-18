@@ -2,11 +2,10 @@ import React, { useEffect,useState } from "react";
 import "./login.css";
 import axios from "axios"
 import { useNavigate, Link } from "react-router-dom"
-const Login = () => {
-  
-  
-  const history=useNavigate();
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const Create = () => {
+    const history=useNavigate();
     const [headline,setHeadline]=useState('')
     const [description,setDescription]=useState('')
     // const [file, setFile] = useState();
@@ -19,11 +18,17 @@ const Login = () => {
                 headline,description
             })
             .then(res=>{
-                if(res.data=="exist"){
-                    alert("User already exists")
+                if(res.data=="notexist"){
+                    console.log("nhi ho rha yr");
+                   toast.success("Created") // Trigger toast notification on successful login
+                    setTimeout(() => {
+                        history("/admin/dashboard",{state:{id:headline}})
+                    }, 2000);
+
                 }
-                else if(res.data=="notexist"){
-                    history("/home",{state:{id:headline}})
+                else if(res.data==="exist"){
+                    console.log("ho rha yr");
+                    alert("User already exists")
                 }
             })
             .catch(e=>{
@@ -44,24 +49,25 @@ const Login = () => {
     // }
 
   return (
-    <>
+ 
      <div className="login-page">
-
+   
 <div className="form">
             <h1 style={{textAlign:"center"}}>Create Problem</h1>
+            <ToastContainer />
             <form action="POST">
               
                 <input type="text" onChange={(e) => { setHeadline(e.target.value) }} placeholder="Headline"  />
                 <input type="text" onChange={(e) => { setDescription(e.target.value) }} placeholder="Description"  />
-                <input type="submit" onClick={submit}  placeholder="Create"/>
+                <input type="submit" onClick={submit} />
 
             </form>
            
                
             </div>
         </div>
-    </>
+
   );
 };
 
-export default Login;
+export default Create;

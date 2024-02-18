@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { haversine_distance } from '../haversine_distance';
 import styled from 'styled-components';
 import axios from 'axios';
-
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 export const Order = (props) => {
     const navigate=useNavigate();
     const [name,setName]=useState();
@@ -53,14 +54,25 @@ export const Order = (props) => {
     }
   return (
     <Wrapper onClick={onClick}>
-        <Details>
+        {/* <Details>
             <p>{name}</p>
             <h5>{address}</h5>
         </Details>
         <Contribution>
             <p>Distance:{distance}km</p>
             <p>{person}meal</p>
-        </Contribution>
+        </Contribution> */}
+
+        <Card>
+      <Card.Header as="h5" style={{background: "#c1bbbb"}}>Order By: {name} </Card.Header>
+      <Card.Body>
+        <Card.Title>{address}</Card.Title>
+        <Card.Text>
+        <p>Distance:{distance}km</p>
+            <p>{person}meal</p></Card.Text>
+        <Button variant="primary">Complete Now</Button>
+      </Card.Body>
+    </Card>
     </Wrapper>
   )
 }
@@ -68,8 +80,8 @@ export const Order = (props) => {
 const Wrapper=styled.div`
  display:flex;
  flex-direction:row;
- background:#000000;
- color:#ffffff;
+//  background:#000000;
+  color:#ffffff;
  height:fit-content;
  margin:10px;
  padding:10px;

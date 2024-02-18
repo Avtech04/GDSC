@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Card from 'react-bootstrap/Card';
 import { NavLink } from 'react-router-dom';
-
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 function Home() {
     const [NGOs, setNGOs] = useState([]);
-
+    const [problems, setProblems] = useState([]);
     useEffect(() => {
         async function fetchNGO() {
             try {
@@ -17,6 +19,19 @@ function Home() {
         }
 
         fetchNGO();
+    }, []);
+
+    useEffect(() => {
+        async function fetchproblem() {
+            try {
+                const response = await axios.get('http://localhost:6005/api/allproblems');
+                setProblems(response.data);
+            } catch (error) {
+                console.error('Error fetching problem:', error);
+            }
+        }
+
+        fetchproblem();
     }, []);
 
  // Function to handle status change
@@ -52,13 +67,34 @@ const handleStatusChange = async (id) => {
 
     return (
         <div className="homepage">
-            <h1>Hello and welcome to the home</h1>
+            
+<div style={{textAlign:"center",display:"flex"}}>
+        {/* <h1>Dashboard</h1> */}
+       <div className='NGO-profile'>
+       <Card className='cardd_dashboard' style={{height:'44vh'}} >
+          <Card.Img variant="top" src="https://picsum.photos/2000/2000" className='card-img' />
+          <Card.Body className='card_body'>
+            <Card.Title className='card_title'>Admin</Card.Title>
             <NavLink to={'/createProblem'}>
-                <button className="donate">Create Problem</button>
+                <button className="addLocation">Create Problem</button>
             </NavLink>
-
-            {NGOs.map(NGO => (
-                <Card key={NGO._id} className='cardd'>
+          </Card.Body>
+        </Card>
+      
+       </div>
+         <div className='orderDetails' style={{    width: '71%',
+    marginLeft:' 30px',marginBottom:' 30px',}}>
+         <Tabs
+      defaultActiveKey="ngo"
+      id="fill-tab-example"
+      className="mb-3"
+      fill
+    >
+      <Tab eventKey="ngo" title="Registered NGOs">
+      <h1>NGOs</h1>
+      <div className='demo' style={{display:'flex', flexWrap:'wrap'}}>
+      {NGOs.map(NGO => (
+                <Card key={NGO._id} className='cardd_alter' style={{flexBasis:'30%'}}>
                     <Card.Img variant="top" src={NGO.image} className='card-img' />
                     <Card.Body>
                         <Card.Title className='card_title'>{NGO.displayName}</Card.Title>
@@ -73,7 +109,34 @@ const handleStatusChange = async (id) => {
                     </Card.Body>
                 </Card>
             ))}
-        </div>
+            </div>
+      </Tab>
+   
+      <Tab eventKey="problem" title="Problems">
+      <h1>Problems Enlisted</h1>
+      <div className='demo' style={{display:'flex', flexWrap:'wrap'}}>
+      {problems.map(problem => (
+                <Card key={problem._id} className='cardd_alter'  style={{flexBasis:'30%'}}>
+                    <Card.Img variant="top" src="https://picsum.photos/2000/2000" className='card-img' />
+                    <Card.Body>
+                        <Card.Title className='card_title'>{problem.headline}</Card.Title>
+                        <Card.Text className='card_description'>{problem.description}</Card.Text>
+                       
+                    </Card.Body>
+                </Card>
+            ))}
+            </div>
+      </Tab>
+      
+    </Tabs>
+    </div>
+         
+
+
+           
+    </div>
+    </div>
+       
     );
 }
 

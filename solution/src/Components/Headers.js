@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import "./header.css"
+
 import { NavLink } from "react-router-dom"
 import axios from "axios"
-
+import { Appstate } from '../contextApi'
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import "./header.css"
 const Headers = () => {
     
     const [userdata, setUserdata] = useState({});
+    const {setNgoUser}=Appstate();
+
     console.log("response", userdata)
 
     const getUser = async () => {
         try {
             const response = await axios.get("http://localhost:6005/login/sucess", { withCredentials: true });
 
-            setUserdata(response.data.user)
+            setUserdata(response.data.user);
+            setNgoUser(response.data.user);
         } catch (error) {
             console.log("error", error)
         }
@@ -45,55 +52,65 @@ const Headers = () => {
         // document.body.appendChild(addScript);
         // window.googleTranslateElementInit = googleTranslateElementInit;
       }, []);
+
+    //   <header>
+    //             <nav>
+    //                 <div className="left">
+    //                     <h1>Solution Challenge</h1>
+    //                 </div>
+    //                 <div className="right">
+    //                     <ul>
+    //                         <li>
+    //                             <NavLink to="/">
+    //                                 Home
+    //                             </NavLink>
+    //                         </li>
+
+    //                         {/*just for demo */}
+    //                         <li>
+    //                             <NavLink to="/userDashboard">
+    //                                 Donate
+    //                             </NavLink>
+    //                         </li>
+    //                         {
+    //                             Object?.keys(userdata)?.length > 0 ? (
+    //                                 <>
+    //                                 <li style={{color:"black",fontWeight:"bold"}}>{userdata?.displayName}</li>
+    //                                     <li>
+    //                                         <NavLink to="/dashboard">
+    //                                             Dashboard
+    //                                         </NavLink>
+    //                                     </li>
+    //                                     <li onClick={logout}>Logout</li>
+    //                                     <li>
+    //                                         <img src={userdata?.image} style={{ width: "50px", borderRadius: "50%" }} alt="" />
+    //                                     </li>
+    //                                 </>
+    //                             ) : <li>
+    //                                 <NavLink to="/login">
+    //                                     Login
+    //                                 </NavLink>
+    //                             </li>
+    //                         }
+
+
+
+    //                     </ul>
+    //                 </div>
+    //             </nav>
+    //         </header>
     return (
         <>
-         <div id="google_translate_element"></div>
-            <header>
-                <nav>
-                    <div className="left">
-                        <h1>Solution Challenge</h1>
-                    </div>
-                    <div className="right">
-                        <ul>
-                            <li>
-                                <NavLink to="/">
-                                    Home
-                                </NavLink>
-                            </li>
-
-                            {/*just for demo */}
-                            <li>
-                                <NavLink to="/userDashboard">
-                                    Donate
-                                </NavLink>
-                            </li>
-                            {
-                                Object?.keys(userdata)?.length > 0 ? (
-                                    <>
-                                    <li style={{color:"black",fontWeight:"bold"}}>{userdata?.displayName}</li>
-                                        <li>
-                                            <NavLink to="/dashboard">
-                                                Dashboard
-                                            </NavLink>
-                                        </li>
-                                        <li onClick={logout}>Logout</li>
-                                        <li>
-                                            <img src={userdata?.image} style={{ width: "50px", borderRadius: "50%" }} alt="" />
-                                        </li>
-                                    </>
-                                ) : <li>
-                                    <NavLink to="/login">
-                                        Login
-                                    </NavLink>
-                                </li>
-                            }
-
-
-
-                        </ul>
-                    </div>
-                </nav>
-            </header>
+            <Navbar className='virtual_header' bg="dark" data-bs-theme="dark"  >
+        <Container>
+          <Navbar.Brand href="#home">Solution Challenge</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/features">Features</Nav.Link>
+            <Nav.Link href="/login">Login</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
         </>
     )
 }

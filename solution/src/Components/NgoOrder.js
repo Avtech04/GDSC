@@ -130,7 +130,7 @@ const Wrapper = styled.div`
  flex-direction:row;
 `
 const MapWrapper = styled.div`
-  flex:1;
+  flex:2;
   margin: 0; padding: 0;
   height:100vh;
   width:100vw;

@@ -7,14 +7,15 @@ import Login from './Components/Login';
 import Dashboard from './Components/Dashboard';
 import Error from './Components/Error';
 import Admin from './Components/Admin';
+import Feature from './Components/Features';
 import AdminDashboard from './Components/AdminDashboard';
 import { UserDashboard } from './Components/userComponents/UserDashboard';
 import { Map } from './Components/Map';
+import About from './Components/About';
 import "mapbox-gl/dist/mapbox-gl.css";
 import Carousel from './Components/Carousel';
 import CreateProblem from './Components/Problem';
 import AddLocation from './Components/AddLocation';
-import P1 from './Problems/P1';
 import Signup from './Components/Signup';
 import Footer from './Components/Footer';
 import ProblemPage from './Components/ProblemPage';
@@ -66,17 +67,19 @@ function App() {
         <Route path='/' element={
           <>
             <Home />
+            <About />
             <Carousel problems={problems} /> {/* Pass fetched problems to the Carousel component */}
+            <Feature/>
           </>
         } />
         <Route path='/login' element={<Login />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/userDashboard' element={<UserDashboard/>}/>
+        <Route path='/features' element={<Feature/>}/>
         <Route path='/maps' element={<Map/>}/>
         <Route path='/admin' element={<Admin />} />
         <Route path='/admin/dashboard' element={<AdminDashboard />} />
         <Route path='*' element={<Error />} />
-        <Route path='/problem/p1' element={<P1/>} />
         <Route path='/addLocation' element={<AddLocation/>} />
         <Route path='/createProblem' element={<CreateProblem/>} />
         <Route path='/problem/*' element={<ProblemPage/>}/>

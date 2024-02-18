@@ -110,6 +110,7 @@ export const Map = () => {
   return (
     <div> 
       <Wrapper>
+      <MapWrapper id="map" style={{"margin-left": "48px",}}></MapWrapper>
         {bookingState?
         <Booking>
           <Book userCoordinate={userCoordinate} bookDetail={bookDetail} userAddress={userAddress}/>
@@ -125,7 +126,7 @@ export const Map = () => {
           </>:<></>}
         </SearchWrapper>}
         
-        <MapWrapper id="map"></MapWrapper>
+        
         </Wrapper>
       
     </div>
@@ -137,15 +138,16 @@ const Wrapper=styled.div`
  flex-direction:row;
 `
 const MapWrapper=styled.div`
-  flex:1;
-  margin: 0; padding: 0;
-  height:100vh;
-  width:100vw;
+  // flex:2;
+  // margin: 0; padding: 0;
+  height:70vh;
+  width:70vw;
+  margin:20px;
 `
 const SearchWrapper=styled.div`
-  flex:1;
+  // flex:1;
 `
 const Booking =styled.div`
-  flex:1;
+  // flex:1;
 `
 

@@ -5,15 +5,23 @@
 
 
   .card-img{
-    height: 30vh;
+    height: 24vh ;
   }
 
   .cardd{
-    width: 30%;
+    width: 24%;
     padding: 10px;
     margin: 10px;
+    height: 59vh;
   }
-
+  .problem_main_heading{
+    padding: 7px;
+    text-align: center;
+  }
+.card_body{
+  padding: 4px;
+    padding-top: 9px;
+}
   .card_title{
     text-align: center;
     text-transform: capitalize;
@@ -22,6 +30,8 @@
   .card_description{
     text-align: center;
     text-transform: capitalize;
+    
+    font-size: 15px;
   }
 
   .Donate_btn{

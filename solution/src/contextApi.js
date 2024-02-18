@@ -9,6 +9,7 @@ const AppProvider = ({ children }) => {
   const [problemID, setProblemID] = useState({});
   const [problemHeadline, setProblemHeadline] = useState({});
   const [problemDescription, setProblemDescription] = useState({});
+  const [NgoUser, setNgoUser] = useState({});
 
 
   return (
@@ -22,6 +23,8 @@ const AppProvider = ({ children }) => {
        problemDescription,
        setProblemID,
        problemID,
+      NgoUser,
+      setNgoUser 
          }}
     >
       {children}

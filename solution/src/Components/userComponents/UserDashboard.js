@@ -6,7 +6,12 @@ import { NgoOrder } from '../NgoOrder';
 import axios from 'axios';
 import '../../App.css';
 import io from 'socket.io-client';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 import { Appstate } from '../../contextApi';
+
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 const ENDPOINT = "http://localhost:6005";
 
 
@@ -61,30 +66,55 @@ export const UserDashboard = () => {
       </> :
         <>
      
-      <h1>      Analytics</h1>
+
     
-        <div className="dashboard">
-        <div className='details'>
-        <div className='Back-details'>
-          <img src="https://picsum.photos/1800/300" className='Back-img'></img>
-        </div>
-            <button className='Donate-button' onClick={onClick}>Donate Excess food</button>
-        </div>
-        <div className="orders">
-        <div className='order'>
-            <p>Your upcoming Order</p>
-            {orders.map((ele,index)=>{
-              return <Order key={index} type={"UserTracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
-            })}
-            </div>
-        <div>
-            <p>Your past Orders</p>
+        <div style={{textAlign:"center",display:"flex"}}>
+       
+        <div className='NGO-profile'>
+       <h2>Profile</h2>
+       <Card className='cardd_dashboard' >
+          <Card.Img variant="top" src="https://picsum.photos/2000/2000" className='card-img' />
+          <Card.Body className='card_body'>
+            <Card.Title className='card_title'>Ayush Ngo</Card.Title>
+            <Card.Text className='card_description'>order done : 2</Card.Text>
             
-            {completedOrders.map((ele,index)=>{
+            <Card.Text className='card_description'>order pending : 1</Card.Text>
+           
+            <Button className="addLocation" onClick={onClick}>Donate Excess food</Button>
+
+          </Card.Body>
+        </Card>
+      
+       </div>
+        <div className="orders">
+        <div className='orderDetails'>
+         <Tabs
+      defaultActiveKey="pending"
+      id="fill-tab-example"
+      className="mb-3"
+      fill
+    >
+      <Tab eventKey="completed" title="Completed Orders">
+      <h1>Your upcoming Order</h1>
+      {orders.map((ele,index)=>{
               return <Order key={index} type={"UserTracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
             })}
-            </div>
-            </div>
+      </Tab>
+      <Tab eventKey="pending" title="Pending Orders">
+      <h1>Your past Orders</h1>
+      {completedOrders.map((ele,index)=>{
+              return <Order key={index} type={"UserTracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
+            })}
+      </Tab>
+      
+    </Tabs>
+         
+         
+
+
+           
+    </div>
+       </div>
           </div>
         </>
       }

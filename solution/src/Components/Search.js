@@ -50,11 +50,17 @@ const Search = (props) => {
   
   return (
     <Wrapper>
+      <h2 style={{textAlign:"center"}}>Choose the Location</h2>
+      <div style={{display:"flex"}}>
        <div>
-      <div className='autoCompleteInputContainer' >
+        
+      <div className='autoCompleteInputContainer'  >
+    
         <input
           id="address"
-          type="text"
+          type="text" style={{width: "27vw",
+            height: "8vh",
+            "margin-left": "21px",}}
           placeholder="Enter your Location"
           value={value}
           onChange={handleChange}
@@ -67,7 +73,10 @@ const Search = (props) => {
           ))}
         </ul>
       </div>
-      <button onClick={props.onClick}>Confirm Location</button>
+      </div>
+      <div>
+      <button onClick={props.onClick} className='btn2'>Confirm Location</button>
+      </div>
     </div>
     </Wrapper>
   )

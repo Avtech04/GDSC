@@ -254,7 +254,16 @@ app.post("/signup", async (req, res) => {
 })
 app.get('/api/problems', async (req, res) => {
     try {
-      const problems = await problemdb.find().sort({ createdAt: -1 }).limit(3);
+      const problems = await problemdb.find().sort({ createdAt: -1 }).limit(4);
+      res.json(problems);
+    } catch (err) {
+      console.error('Error fetching problems:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  app.get('/api/allproblems', async (req, res) => {
+    try {
+      const problems = await problemdb.find().sort({ createdAt: -1 });
       res.json(problems);
     } catch (err) {
       console.error('Error fetching problems:', err);

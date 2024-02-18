@@ -1,3 +1,12 @@
+
+body {
+  width: 99vw;
+  background: #f6f9fc;
+  font-family: "Open Sans", sans-serif;
+  color: #525f7f;
+  overflow-x: hidden;
+  margin-right: 30px;
+}
 #map { top: 0; bottom: 0; width: 50%; }
 /* position:absolute; */
 .navbar{
@@ -24,7 +33,10 @@
 }
 
 .image-problems img{
+  margin: 6px;
   height: 44vh;
+  border: 2px solid black;
+  border-radius: 12px;
 }
 
 .Donate-button{
@@ -65,4 +77,48 @@
 
 .orders{
   width: 70%;
+}
+
+.cardd_dashboard{
+  width: 90%;
+    padding: 10px;
+    margin: 10px;
+    height: 59vh;
+}
+
+.NGO-profile{
+  width: 25vw;
+}
+
+
+.orderDetails{
+  width: 59%;
+    margin-left: 63px;
+}
+
+.tab-content{
+  background: #dedeb8;
+  border-radius: 20px;
+}
+
+.autoCompleteInputContainer{
+  display: flex;
+  flex-direction: row;
+}
+
+.btn2{
+  margin-left: 20px;
+    border-radius: 12px;
+    background: blue;
+    color: white;
+    border: 0px;
+    padding: 11px;
+}
+
+
+.cardd_alter{
+  width: 36%;
+  padding: 10px;
+  margin: 10px;
+  height: 50vh;
 }

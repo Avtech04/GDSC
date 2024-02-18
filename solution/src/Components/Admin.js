@@ -7,8 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 function Login() {
     
     const history=useNavigate();
-
-    const notify = () => toast("Wow so easy!");
     const [username,setUsername]=useState('')
     const [password,setPassword]=useState('')
    
@@ -22,10 +20,12 @@ function Login() {
             })
             .then(res=>{
                 console.log(res);
-                notify();
                 if(res.data=="exist"){
-                    
+                    toast.success("Admin Login successful!"); // Trigger toast notification on successful login
+                setTimeout(() => {
                     history("/admin/dashboard",{state:{id:username}})
+                }, 2000);
+                   
                     
                 }
                 else if(res.data=="notexist"){
