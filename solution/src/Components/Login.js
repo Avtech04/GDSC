@@ -67,7 +67,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Appstate } from "../contextApi";
 const Login = () => {
-    const notify = () => toast("Wow so easy!");
+    // const notify = () => toast("Wow so easy!");
     const history=useNavigate();
     //const { userEmail, setUserEmail } = useContext(UserContext);
     const {setUserEmail} = Appstate();
@@ -75,7 +75,7 @@ const Login = () => {
     const [password,setPassword]=useState('')
 
     async function submit(e){
-        const notify = () => toast("Wow so easy!");
+        // const notify = () => toast("Wow so easy!");
         e.preventDefault();
 
         try{
@@ -120,7 +120,7 @@ const Login = () => {
   return (
     <>
         <div className="login-page">
-            
+        <ToastContainer />
             <div className="form">
             <h1 style={{textAlign:"center"}}>Login for Doners</h1>
             <form action="POST">
@@ -130,7 +130,7 @@ const Login = () => {
                 <input type="submit" onClick={submit} />
 
             </form>
-            <ToastContainer />
+            
             <Link to="/signup">Signup Page</Link>
                 <button className='login-with-google-btn' onClick={loginwithgoogle}>
                     Sign In With Google for NGO

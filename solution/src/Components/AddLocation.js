@@ -34,12 +34,10 @@ const AddLocation = () => {
   return (
     <>
     
-
-      <div className="login-page">
             
             <div className="form">
             <h1 style={{textAlign:"center"}}>Add Location</h1>
-            <form action="POST">
+            {/* <form action="POST"> */}
               
             <input type="text" value={NgoUser.displayName} placeholder="Name of Organisation" />
         <input type="text" onChange={(e) => { setDescription(e.target.value) }} placeholder="description" />
@@ -47,8 +45,7 @@ const AddLocation = () => {
         <LocationFinder setAddress={setAddress} setCoordinate={setCoordinate} />
         <button onClick={submit}>Submit</button> 
 
-            </form>
-            </div>
+    
             </div>
     </>
   );

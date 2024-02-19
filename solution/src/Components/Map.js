@@ -67,7 +67,7 @@ export const Map = () => {
         let arr=d.coordinates;
         bnd.push(arr);
         if(map){
-         const marker1= new mapboxgl.Marker().setLngLat(arr).addTo(map);
+         let marker1= new mapboxgl.Marker().setLngLat(arr).addTo(map);
          setMarkers([...markers,marker1]);
         
        }
@@ -97,14 +97,23 @@ export const Map = () => {
           marker.remove();
         })
 
-        const marker1=new mapboxgl.Marker().setLngLat(userCoordinate).addTo(map);
-        const marker2=new mapboxgl.Marker().setLngLat(destCoordinate).addTo(map);
+        let marker1=new mapboxgl.Marker().setLngLat(userCoordinate).addTo(map);
+        let marker2=new mapboxgl.Marker().setLngLat(destCoordinate).addTo(map);
+        setMarkers([...markers,marker2]);
         map.fitBounds(arr,{
           padding:60
         })
         
 
       }
+    }else{
+      if(map&&markers&&markers.length>0){
+        
+      markers.forEach((marker)=>{
+        marker.remove();
+      })
+      onClick();
+    }
     }
   },[bookingState]);
   
@@ -114,7 +123,7 @@ export const Map = () => {
       <MapWrapper id="map" style={{"margin-left": "48px",}}></MapWrapper>
         {bookingState?
         <Booking>
-          <Book userCoordinate={userCoordinate} bookDetail={bookDetail} userAddress={userAddress}/>
+          <Book userCoordinate={userCoordinate} bookDetail={bookDetail} userAddress={userAddress} setBookingState={setBookingState}/>
         </Booking>
         :
         <SearchWrapper>

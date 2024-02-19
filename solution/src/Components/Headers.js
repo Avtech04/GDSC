@@ -90,7 +90,7 @@ const Headers = () => {
             <Navbar className='virtual_header' bg="dark" data-bs-theme="dark"  >
             <div id="google_translate_element"></div>
         <Container>
-          <Navbar.Brand href="#home">Solution Challenge</Navbar.Brand>
+          <Navbar.Brand href="#home">HarmonyHive</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/" >Home</Nav.Link>
             <Nav.Link href="/features" >Features</Nav.Link>

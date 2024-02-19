@@ -61,7 +61,7 @@ export const Book = (props) => {
       <div className="login-page" style={{"margin-left": "5vw",
 }}>
             
-            <div className="form">
+              <div className="form">
             <h1 style={{textAlign:"center"}}>Complete the details for the order!</h1>
             <form action="POST">
         <input type="text" onChange={(e) => { setType(e.target.value); }} placeholder="Type of food" /><br></br>

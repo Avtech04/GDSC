@@ -2,7 +2,7 @@ const About = () =>{
 
 
     return(
-        <div style={{backgroundImage:'url(./../public/img.jpg)'}}>
+        <div style={{backgroundImage:'url(./banner.png)'}}>
             
         </div>
     )

@@ -84,13 +84,13 @@ const Search = (props) => {
        <div>
         
       <div className='autoCompleteInputContainer'  >
-        <button onClick={currentLocation}>Choose current location</button>
-        <p>or</p>
+        <button onClick={currentLocation} className="btn btn-primary">Choose current location</button>
+        <p style={{fontSize:'20px',paddingLeft:'20px'}}>or</p>
         <input
           id="address"
           type="text" style={{width: "27vw",
-            height: "8vh",
-            "margin-left": "21px",}}
+            height: "9vh",
+            "margin-left": "9px",}}
           placeholder="Enter your Location"
           value={value}
           onChange={handleChange}
@@ -105,7 +105,7 @@ const Search = (props) => {
       </div>
       </div>
       <div>
-      <button onClick={props.onClick} className='btn2'>Confirm Location</button>
+      <button onClick={props.onClick} className="btn btn-primary">Confirm Location</button>
       </div>
     </div>
     </Wrapper>

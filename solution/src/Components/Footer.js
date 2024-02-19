@@ -101,10 +101,16 @@ export default function App() {
               <h3>Services</h3>
               <ul>
                 <li>
-                  <a href="#">Web design</a>
+                  <a href="#">Disaster Relief Fund</a>
                 </li>
                 <li>
-                  <a href="#">Development</a>
+                  <a href="#">Food Redistribution Initiative</a>
+                </li>
+                <li>
+                  <a href="#">Neighbourly Support Mediation</a>
+                </li>
+                <li>
+                  <a href="#">Impactful Collaboration Platform</a>
                 </li>
               </ul>
             </div>
@@ -112,18 +118,17 @@ export default function App() {
               <h3>About</h3>
               <ul>
                 <li>
-                  <a href="#">Company</a>
+                  <a href="#">Home</a>
                 </li>
                 <li>
-                  <a href="#">Team</a>
+                  <a href="#">Login</a>
                 </li>
               </ul>
             </div>
             <div class="item text">
-              <h3>Company Name</h3>
+              <h3>HarmonyHive</h3>
               <p>
-                Praesent sed lobortis mi. Suspendisse vel placerat ligula.
-                Vivamus ac sem lacus..
+              Welcome to HarmonyHive, a pioneering initiative with a mission to drive positive social change through collaborative philanthropy. 
               </p>
             </div>
           </div>
