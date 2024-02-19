@@ -70,7 +70,14 @@ export const Order = (props) => {
         <Card.Text>
         <p>Distance:{distance}km</p>
             <p>{person}meal</p></Card.Text>
-        <Button variant="primary">Complete Now</Button>
+        
+        <Button variant="primary">{props.details.status
+        ?"See Details"
+        :props.type==="UserTracking"
+        ?"Track Your Order"
+        :props.type==="Booking"?
+        "Make An Order"
+        :"Complete Now"}</Button>
       </Card.Body>
     </Card>
     </Wrapper>

@@ -6,9 +6,10 @@ const Appcontext = createContext();
 const AppProvider = ({ children }) => {
   const [userEmail, setUserEmail] = useState({});
   
-  const [problemID, setProblemID] = useState({});
-  const [problemHeadline, setProblemHeadline] = useState({});
-  const [problemDescription, setProblemDescription] = useState({});
+  const [problemID, setProblemID] = useState();
+  const [problemHeadline, setProblemHeadline] = useState();
+  const [problemDescription, setProblemDescription] = useState();
+  const [problemImage,setProblemImage]=useState();
   const [NgoUser, setNgoUser] = useState({});
 
 
@@ -24,7 +25,9 @@ const AppProvider = ({ children }) => {
        setProblemID,
        problemID,
       NgoUser,
-      setNgoUser 
+      setNgoUser,
+      problemImage,
+      setProblemImage
          }}
     >
       {children}

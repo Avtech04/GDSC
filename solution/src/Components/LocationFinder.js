@@ -8,26 +8,37 @@ export const LocationFinder = (props) => {
     const [coordinate,setCoordinate]=useState([]);
   // mapboxgl.accessToken = `${process.env.REACT_APP_MAP_KEY}`;
   mapboxgl.accessToken =  `pk.eyJ1IjoiYW5raXQzMTMwIiwiYSI6ImNscnA1OHoxejAwcGcybG9mNDRyeGN4MHcifQ.j3Xp9yhfyvgdL5Kh5Jqc3Q`
+
+  const getLocation=async()=>{
+    navigator.geolocation.getCurrentPosition(onSuccess);
+          async function onSuccess(position) {
+            const {
+              latitude,
+              longitude
+            } = position.coords;
+            const mp = new mapboxgl.Map({
+              container: 'map2',
+              style: 'mapbox://styles/mapbox/streets-v11',
+              center: [longitude,latitude],
+              zoom:10
+            });
+        
+            let marker = null
+            mp.on('click', function (e) {
+                setCoordinate([e.lngLat.lng,e.lngLat.lat]);
+                if (marker == null) {
+                    marker = new mapboxgl.Marker()
+                        .setLngLat(e.lngLat)
+                        .addTo(mp);
+                } else {
+                    marker.setLngLat(e.lngLat)
+                }
+            });
+          }
+  }
    useEffect(()=>{
     if(mapState){
-    const mp = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [76,26],
-      zoom:10
-    });
-
-    let marker = null
-    mp.on('click', function (e) {
-        setCoordinate([e.lngLat.lng,e.lngLat.lat]);
-        if (marker == null) {
-            marker = new mapboxgl.Marker()
-                .setLngLat(e.lngLat)
-                .addTo(mp);
-        } else {
-            marker.setLngLat(e.lngLat)
-        }
-    });
+    getLocation();
 }
 
   },[mapState])
@@ -69,7 +80,7 @@ export const LocationFinder = (props) => {
        { !mapState?
         <button onClick={()=>{setMapState(true)}} style={{marginBottom: '20px',}}>Choose Location on Map</button>
          :<>
-        <MapWrapper id='map'></MapWrapper>
+        <MapWrapper id='map2' ></MapWrapper>
         <button onClick={confirmClick} style={{marginBottom: '20px',}}>Confirm Location</button>
         </>}
 
@@ -78,7 +89,7 @@ export const LocationFinder = (props) => {
 }
 
 const MapWrapper=styled.div`
-  flex:1;
-  width:40vw;
+  // flex:1;
+  width:21vw;
   height:400px;
 `

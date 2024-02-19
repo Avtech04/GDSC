@@ -283,6 +283,16 @@ app.get('/api/problems', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
+  app.get('/api/problem',async (req, res) => {
+    let id=req.query.id;
+    try {
+        const problem = await problemdb.findById(id);
+        res.json(problem);
+      } catch (err) {
+        console.error('Error fetching problem:', err);
+        res.status(500).json({ error: 'Internal server error' });
+      }
+  })
   app.get('/api/NGO', async (req, res) => {
     try {
       const NGOs = await userdb.find().sort({ createdAt: -1 });
@@ -331,16 +341,24 @@ app.get('/getOrders',async(req,res)=>{
 
 })
 
-app.put('/updateOrders',async(req,res)=>{
-    const orderId=req.query.id;
+app.post('/update',async(req,res)=>{
+    console.log(req.body.id);
+    const orderId=req.body.id;
+    // console.log(req.query);
+    // console.log(orderId);
     try{
-        let order=await orderdb.findByIdAndUpdate(orderId,{status:true})
+        let order=await orderdb.findById(orderId);
+        order.status=true;
+        order.save();
         res.status(200).send("order completed successfully");
+       
     }catch(err){
         res.status(404).send(err);
     }
 })
-
+// app.post('/update', async (req, res) => {
+//     console.log(req.body.id);
+// })
 const io = require("socket.io")(http, {
     pingTimeout: 60000,
     cors: {

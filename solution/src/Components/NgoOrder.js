@@ -9,6 +9,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import styled from 'styled-components';
 import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
 
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { haversine_distance } from './haversine_distance';
 function MyVerticallyCenteredModal(props) {
@@ -39,7 +40,7 @@ export const NgoOrder = (props) => {
   const [value, setValue] = useState([]);
   const [map, setMap] = useState();
   const [direc, setDirec] = useState();
-
+  const navigate=useNavigate();
   const getdata = async () => {
     try {
       let data = await axios.get('http://localhost:6005/getLocation',
@@ -48,6 +49,7 @@ export const NgoOrder = (props) => {
             id: props.bookDetail.LocationId
           }
         });
+       
 
 
       const mp = new mapboxgl.Map({
@@ -105,20 +107,26 @@ export const NgoOrder = (props) => {
             let destCoord = [longitude, latitude];
             let dist = haversine_distance(props.bookDetail.userCoordinate, destCoord);
             if (dist <= 0.1) {
-              // alert("YOUR ORDER HAS BEEN SUCCESSFULLY COMPLETED");
-              setModalShow(true)
+              let data1 = await axios.post('http://localhost:6005/update',
+              {
+                id: props.bookDetail._id
+              });
+               setModalShow(true);
+               
               props.socket.emit("stopTracking");
               clearInterval(intervalId);
+              navigate('/dashboard');
             }
           }
-        }, 5000);
+        }, 2000);
 
       }
 
 
     }
   }
-
+  
+ 
   props.socket.on("recieveLocation", (data) => {
 
     if (map && direc) {
@@ -149,9 +157,9 @@ export const NgoOrder = (props) => {
     </Card>
         {props.type === "User" ?
           <div style={{ flex: "1" }}>{value}</div> : <>
-            {start ?
-              <div style={{ flex: "1" }}>{value}</div>
-              :
+            
+           { props.bookDetail.status ?<></>:
+              start?<></>:
               <button onClick={onClick} style={{
                 width: '10vw',
                 background: 'blue',
@@ -168,6 +176,10 @@ export const NgoOrder = (props) => {
          
       </InfoWrapper>
       <MapWrapper id="map1"></MapWrapper>
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </Wrapper>
   )
 }

@@ -24,7 +24,7 @@ const Search = (props) => {
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json`,
         {
           params: {
-            access_token: `${process.env.REACT_APP_MAP_KEY}`,
+            access_token: `pk.eyJ1IjoiYW5raXQzMTMwIiwiYSI6ImNscnA1OHoxejAwcGcybG9mNDRyeGN4MHcifQ.j3Xp9yhfyvgdL5Kh5Jqc3Q`,
                },
         }
       ).then((response)=>{setSuggestions(response.data.features)})

@@ -123,7 +123,7 @@ const handleStatusChange = async (id) => {
       <h1>Problems Enlisted</h1>
       <div className='demo' style={{display:'flex', flexWrap:'wrap'}}>
       {problems.map(problem => (
-                <Card key={problem._id} className='cardd_alter'  style={{flexBasis:'30%'}}>
+                <Card key={problem._id} className='cardd_alter'  style={{flexBasis:'30%',height: '54vh',}}>
                     <Card.Img variant="top" src={`http://localhost:6005/files/${problem.filename}`} className='card-img' />
                     <Card.Body>
                         <Card.Title className='card_title'>{problem.headline}</Card.Title>

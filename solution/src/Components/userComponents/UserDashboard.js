@@ -75,10 +75,10 @@ export const UserDashboard = () => {
        <Card className='cardd_dashboard' >
           <Card.Img variant="top" src="https://picsum.photos/2000/2000" className='card-img' />
           <Card.Body className='card_body'>
-            <Card.Title className='card_title'>Ayush Ngo</Card.Title>
-            <Card.Text className='card_description'>order done : 2</Card.Text>
+            <Card.Title className='card_title' style={{textTransform:'lowercase'}}>{userEmail}</Card.Title>
+            <Card.Text className='card_description'>order done : {completedOrders.length}</Card.Text>
             
-            <Card.Text className='card_description'>order pending : 1</Card.Text>
+            <Card.Text className='card_description'>order pending : {orders.length}</Card.Text>
            
             <Button className="addLocation" onClick={onClick}>Donate Excess food</Button>
 

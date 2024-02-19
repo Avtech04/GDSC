@@ -5,12 +5,16 @@
     position: absolute;
     top: 1.75em;
     background-color: white;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     overflow: hidden;
     border-radius: 4px;
     color: black;
     z-index: 999;
     padding: 0;
+    width: 24vw;
+    margin-left: 16vw;
+    margin-top: 5vh;
+
 }
 .autoCompleteInputContainer .addressSuggestions li {
     list-style: none;

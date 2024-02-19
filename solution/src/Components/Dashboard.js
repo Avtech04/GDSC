@@ -73,7 +73,7 @@ useEffect(() => {
     })
     setSocket(io(ENDPOINT));setSocket(io(ENDPOINT));
     return ()=>{};
-}, [])
+}, [NgoUser.googleId])
   return (
     <>
     {

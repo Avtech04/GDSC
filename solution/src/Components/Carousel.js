@@ -10,7 +10,7 @@ import { Appstate } from "../contextApi";
 
 function Carousel() {
   const [problems, setProblems] = useState([]);
-  const {setProblemHeadline} = Appstate();
+  const {setProblemHeadline,setProblemImage} = Appstate();
   const {setProblemDescription} =Appstate();
   const {setProblemID}=Appstate();
   const {problemID} = Appstate();
@@ -58,7 +58,7 @@ function Carousel() {
              setProblemHeadline(problem.headline);
              setProblemDescription(problem.description);
              setProblemID(problem._id);
-             
+             setProblemImage(problem.filename);
              console.log("hey")
              console.log(problemID);
              console.log("hello")

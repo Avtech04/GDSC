@@ -48,10 +48,10 @@ function Login() {
 
     return (
         <div className="login-page">
-            
+            <ToastContainer />
             <div className="form">
             <h1 style={{textAlign:"center"}}>Login for Admin</h1>
-            <ToastContainer />
+            
             <form action="POST">
               
                 <input type="text" onChange={(e) => { setUsername(e.target.value) }} placeholder="username"  />

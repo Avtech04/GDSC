@@ -36,7 +36,7 @@ const AddLocation = () => {
     <>
     
             
-            <div className="form">
+            <div className="form" style={{width:'60vw'}}>
             <h1 style={{textAlign:"center"}}>Add Location</h1>
             {/* <form action="POST"> */}
               
