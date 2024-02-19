@@ -55,7 +55,7 @@ const Search = (props) => {
             } = position.coords;
             props.setUserCoordinate([longitude, latitude]);
             try{
-            await axios.get(
+            axios.get(
               `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json`,
               {
                 params: {
@@ -65,8 +65,8 @@ const Search = (props) => {
               }
             ).then((response)=>{
                 if(response.data.features.length>0){
-                  props.setUserAddress(response.data.features[0].place_name)}})
-                  props.onClick();
+                  props.setUserAddress(response.data.features[0].place_name)}});
+                  //props.onClick();
           } catch (error) {
             console.log(error);
           }

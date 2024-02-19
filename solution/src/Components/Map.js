@@ -51,19 +51,17 @@ export const Map = () => {
 
   const onClick=async()=>{
     let bnd=[];
+    setLocation([]);
     console.log(userCoordinate);
     bnd.push(userCoordinate);
     //fetch data of Ngo's nearby 
     const data= await axios.get('http://localhost:6005/getLocation');
-    console.log(data.data);
-    if(data.data&&location){
-    setLocation(data.data);
-    }
-    console.log(location);
+    
 
     data.data.forEach((d)=>{
        let dis=haversine_distance(userCoordinate,d.coordinates);
-        console.log(d);
+        if(dis<=10){
+        setLocation([...location,d]);
         let arr=d.coordinates;
         bnd.push(arr);
         if(map){
@@ -71,14 +69,21 @@ export const Map = () => {
          setMarkers([...markers,marker1]);
         
        }
+      }
        
     })
     console.log(bnd);
     if(bnd.length>1){
     if(map){
-      map.fitBounds(bnd,{
-        padding:60
-      })
+      var bounds = new mapboxgl.LngLatBounds();
+
+      bnd.forEach(function (coord) {
+        bounds.extend(coord);
+      });
+    
+      map.fitBounds(bounds, {
+        padding: 50 // Adjust padding as needed
+      });
     }
   }
     setCheck(true);

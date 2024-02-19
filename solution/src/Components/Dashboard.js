@@ -8,6 +8,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import { Appstate } from '../contextApi';
 
 import BounceLoader from "react-spinners/BounceLoader";
 import io from 'socket.io-client';
@@ -27,6 +28,8 @@ const Dashboard = () => {
   const [socket,setSocket]=useState(null);
   const [loading,setLoading]=useState(false);
   const navigate = useNavigate();
+  const {NgoUser}=Appstate();
+
 
   const getUser = async () => {
     try {
@@ -51,11 +54,11 @@ useEffect(() => {
  axios.get('http://localhost:6005/getOrders',
   {
     params:{
-      NgoId:'1234'
+      NgoId:NgoUser.googleId
     }
   }).then((res)=>{
     let arr1=[];
-    let arr2=[];
+    var arr2=[];
     res.data.forEach((ele) => {
       if(!ele.status){
         arr1.push(ele);
@@ -94,10 +97,10 @@ useEffect(() => {
          <Card className='cardd_dashboard' >
             <Card.Img variant="top" src="https://picsum.photos/2000/2000" className='card-img' />
             <Card.Body className='card_body'>
-              <Card.Title className='card_title'>Doner Ayush</Card.Title>
-              <Card.Text className='card_description'>order done : 2</Card.Text>
+              <Card.Title className='card_title'>{NgoUser.displayName}</Card.Title>
+              <Card.Text className='card_description'>order done : {completedOrders.length}</Card.Text>
               
-              <Card.Text className='card_description'>order pending : 1</Card.Text>
+              <Card.Text className='card_description'>order pending :{orders.length}</Card.Text>
               <NavLink to={'/addLocation'}>
               <Button className="addLocation">Add Location</Button>
             </NavLink>

@@ -17,7 +17,8 @@ const AddLocation = () => {
   const ngoName=NgoUser.displayName;
   const lng=coordinate[0];
   const lat=coordinate[1];
-  const submit=async()=>{
+  const submit=async(e)=>{
+    e.preventDefault();
     await axios.post('http://localhost:6005/AddLocation', {
     ngoName,
     description,

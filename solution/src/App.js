@@ -43,19 +43,7 @@ function App() {
     fetchProblems();
   }, []);
 
-  useEffect(() => {
-    async function fetchNGO() {
-      try {
-        const response = await axios.get('/api/NGO'); // Adjust the endpoint according to your backend
-        console.log('Response data:', response.data); 
-        setNGOs(response.data);
-      } catch (error) {
-        console.error('Error fetching NGO:', error);
-      }
-    }
 
-    fetchNGO();
-  }, []);
 
   //<UserContext.Provider value={{ userEmail, setUserEmail }}>
   //{/* <UserContext.Provider value={{ problemHeading, setProblemHeading }}> */}
