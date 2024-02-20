@@ -1,0 +1,5 @@
+
+/solution/node_modules/
+/server/node_modules/
+/solution/.env
+/server/.env
