@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Order } from './Order';
-import { NgoOrder } from '../NgoOrder';
+import { NgoOrder } from '../DistributorComp/NgoOrder';
 import axios from 'axios';
 import '../../App.css';
 import io from 'socket.io-client';
@@ -17,38 +17,34 @@ const ENDPOINT = "http://localhost:6005";
 
 
 
-const data = require('../../order.json');
-
-
-
 export const UserDashboard = () => {
 
 
-  const {userEmail}=Appstate();
+  const { userEmail } = Appstate();
   const navigate = useNavigate();
   const [startOrder, setStartOrder] = useState(false);
   const [bookDetail, setBookDetail] = useState({});
-  const [socket,setSocket]=useState(null);
+  const [socket, setSocket] = useState(null);
   const [orders, setOrders] = useState([]);
-  const [completedOrders,setCompletedOrders]=useState([]);
+  const [completedOrders, setCompletedOrders] = useState([]);
   const onClick = () => {
     navigate('/maps')
   }
-  useEffect( () => {
+  useEffect(() => {
     //get the orders related to user(current+previous)
-     axios.get('http://localhost:6005/getOrders',
+    axios.get('http://localhost:6005/getOrders',
       {
         params: {
           emailId: userEmail,
         }
       }).then((res) => {
         console.log(res);
-        let arr1=[];
-        let arr2=[];
+        let arr1 = [];
+        let arr2 = [];
         res.data.forEach((ele) => {
-          if(!ele.status){
+          if (!ele.status) {
             arr1.push(ele);
-          }else{
+          } else {
             arr2.push(ele);
           }
         });
@@ -57,64 +53,64 @@ export const UserDashboard = () => {
       }).catch((e) => {
         console.log(e);
       })
-      setSocket(io(ENDPOINT));
+    setSocket(io(ENDPOINT));
   }, []);
   return (
     <Wrapper>
       {startOrder ? <>
-        <NgoOrder bookDetail={bookDetail} socket={socket} type="User"/>
+        <NgoOrder bookDetail={bookDetail} socket={socket} type="User" />
       </> :
         <>
-     
-
-    
-        <div style={{textAlign:"center",display:"flex"}}>
-       
-        <div className='NGO-profile'>
-       <h2>Profile</h2>
-       <Card className='cardd_dashboard' >
-          <Card.Img variant="top" src="https://picsum.photos/2000/2000" className='card-img' />
-          <Card.Body className='card_body'>
-            <Card.Title className='card_title' style={{textTransform:'lowercase'}}>{userEmail}</Card.Title>
-            <Card.Text className='card_description'>order done : {completedOrders.length}</Card.Text>
-            
-            <Card.Text className='card_description'>order pending : {orders.length}</Card.Text>
-           
-            <Button className="addLocation" onClick={onClick}>Donate Excess food</Button>
-
-          </Card.Body>
-        </Card>
-      
-       </div>
-        <div className="orders">
-        <div className='orderDetails'>
-         <Tabs
-      defaultActiveKey="pending"
-      id="fill-tab-example"
-      className="mb-3"
-      fill
-    >
-      <Tab eventKey="completed" title="Pending Orders">
-      <h1>Your past Orders</h1>
-      {orders.map((ele,index)=>{
-              return <Order key={index} type={"UserTracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
-            })}
-      </Tab>
-      <Tab eventKey="pending" title="Completed Orders">
-      <h1>Your Completed Orders</h1>
-      {completedOrders.map((ele,index)=>{
-              return <Order key={index} type={"UserTracking"}  setDestCoordinate={()=>{}} setBookingState={()=>{}} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele}/>
-            })}
-      </Tab>
-      
-    </Tabs>
-         
-         
 
 
-           
-    </div>
-       </div>
+
+          <div style={{ textAlign: "center", display: "flex" }}>
+
+            <div className='NGO-profile'>
+              <h2>Profile</h2>
+              <Card className='cardd_dashboard' >
+                <Card.Img variant="top" src="https://picsum.photos/2000/2000" className='card-img' />
+                <Card.Body className='card_body'>
+                  <Card.Title className='card_title' style={{ textTransform: 'lowercase' }}>{userEmail}</Card.Title>
+                  <Card.Text className='card_description'>order done : {completedOrders.length}</Card.Text>
+
+                  <Card.Text className='card_description'>order pending : {orders.length}</Card.Text>
+
+                  <Button className="addLocation" onClick={onClick}>Donate Excess food</Button>
+
+                </Card.Body>
+              </Card>
+
+            </div>
+            <div className="orders">
+              <div className='orderDetails'>
+                <Tabs
+                  defaultActiveKey="pending"
+                  id="fill-tab-example"
+                  className="mb-3"
+                  fill
+                >
+                  <Tab eventKey="completed" title="Pending Orders">
+                    <h1>Your past Orders</h1>
+                    {orders.map((ele, index) => {
+                      return <Order key={index} type={"UserTracking"} setDestCoordinate={() => { }} setBookingState={() => { }} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele} />
+                    })}
+                  </Tab>
+                  <Tab eventKey="pending" title="Completed Orders">
+                    <h1>Your Completed Orders</h1>
+                    {completedOrders.map((ele, index) => {
+                      return <Order key={index} type={"UserTracking"} setDestCoordinate={() => { }} setBookingState={() => { }} setStartOrder={setStartOrder} setBookDetail={setBookDetail} details={ele} />
+                    })}
+                  </Tab>
+
+                </Tabs>
+
+
+
+
+
+              </div>
+            </div>
           </div>
         </>
       }

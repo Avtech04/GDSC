@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
+import "../componentsCSS/login.css"
 import { useNavigate, Link } from "react-router-dom"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 
 function Login() {
-
     const history = useNavigate();
-    const [username, setUsername] = useState('')
+
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     async function submit(e) {
@@ -15,21 +15,15 @@ function Login() {
 
         try {
 
-            await axios.post("http://localhost:6005/admin", {
-                username, password
+            await axios.post("http://localhost:6005/signup", {
+                email, password
             })
                 .then(res => {
-                    console.log(res);
                     if (res.data == "exist") {
-                        toast.success("Admin Login successful!"); // Trigger toast notification on successful login
-                        setTimeout(() => {
-                            history("/admin/dashboard", { state: { id: username } })
-                        }, 2000);
-
-
+                        alert("User already exists")
                     }
                     else if (res.data == "notexist") {
-                        alert("wrong")
+                        history("/home", { state: { id: email } })
                     }
                 })
                 .catch(e => {
@@ -48,17 +42,17 @@ function Login() {
 
     return (
         <div className="login-page">
-            <ToastContainer />
-            <div className="form">
-                <h1 style={{ textAlign: "center" }}>Login for Admin</h1>
 
+            <div className="form">
+                <h1 style={{ textAlign: "center" }}>Signup for Doners</h1>
                 <form action="POST">
 
-                    <input type="text" onChange={(e) => { setUsername(e.target.value) }} placeholder="username" />
+                    <input type="email" onChange={(e) => { setEmail(e.target.value) }} placeholder="Email" />
                     <input type="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Password" />
                     <input type="submit" onClick={submit} />
 
                 </form>
+                <Link to="/login">Login Page</Link>
 
             </div>
         </div>
